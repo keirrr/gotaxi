@@ -4,11 +4,14 @@ import axios from "axios";
 
 import { BiCurrentLocation } from "react-icons/bi";
 
-const SearchDestinationInput = () => {
+const SearchDestinationInput = ({
+  setSearchResults,
+  setIsSearching,
+  setSearchingType,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
-
-  const [userLocation, setUserLocation] = useState([]);
   const [locationName, setLocationName] = useState("");
+  const [timer, setTimer] = useState(null);
 
   const getCurrentPosition = async (props) => {
     const success = (position) => {
@@ -34,6 +37,26 @@ const SearchDestinationInput = () => {
     }
   };
 
+  const searchLocation = async (inputValue) => {
+    const url = `https://nominatim.openstreetmap.org/search?q=${inputValue}&format=json&addressdetails=1`;
+
+    const res = await axios.get(url);
+
+    setSearchResults(res);
+  };
+
+  const inputChanged = (e) => {
+    const inputValue = e.target.value;
+    setLocationName(inputValue);
+    clearTimeout(timer);
+
+    const newTimer = setTimeout(() => {
+      searchLocation(inputValue);
+    }, 500);
+
+    setTimer(newTimer);
+  };
+
   return (
     <div className="flex justify-between relative h-10 w-full mt-[10px] bg-gray-200 rounded-[10px]">
       <div className="flex justify-center items-center z-10 mx-[10px]">
@@ -44,11 +67,19 @@ const SearchDestinationInput = () => {
       <input
         type="text"
         placeholder="Dokąd jedziemy?"
+        id="dest-search-input"
         className="absolute w-full h-full t-0 px-[40px] py-[5px] bg-gray-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-600"
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        onChange={() => {}}
-        value={locationName}
+        autoComplete="off"
+        onFocus={() => {
+          setIsFocused(true);
+          setIsSearching(true);
+          setSearchingType("dest");
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+          setIsSearching(false);
+        }}
+        onChange={inputChanged}
       />
       <button
         onClick={getCurrentPosition}

@@ -1,5 +1,10 @@
 // Leaflet
+import L from "leaflet";
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+
+import { useSelector } from "react-redux";
+
+import { useRef, useEffect } from "react";
 
 import RoutingMachine from "./routingMachine";
 
@@ -11,10 +16,21 @@ const Map = () => {
   const accessToken =
     "3TMAJftD9pk68IEFxYhkdN0eUhQt9bArNsXGr66oeo7wjs6UkERfY7zyep3quFZc";
 
-  // const coords = useSelector((state) => state.locationCoords);
-  // console.log(coords);
+  const coords = useSelector((state) => state.locationCoords);
+  console.log(coords);
 
-  console.log(RoutingMachine);
+  const routingMachine = useRef();
+
+  useEffect(() => {
+    const points = [
+      [coords.startLat, coords.startLng],
+      [coords.destLat, coords.destLng],
+    ];
+
+    if (routingMachine.current) {
+      routingMachine.current.setWaypoints(points);
+    }
+  }, [coords, routingMachine]);
 
   return (
     <section className="absolute z-0 h-screen w-screen">
@@ -30,7 +46,7 @@ const Map = () => {
           url={`https://{s}.tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=${accessToken}`}
         />
         <ZoomControl position="topright" />
-        <RoutingMachine />
+        <RoutingMachine ref={routingMachine} coords={coords} />
       </MapContainer>
     </section>
   );

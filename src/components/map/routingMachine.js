@@ -8,7 +8,7 @@ import "./style.css";
 
 const CreateRoutingMachineLayer = (props) => {
   const control = L.Routing.control({
-    waypoints: [L.latLng(null, null), L.latLng(null, null)],
+    waypoints: [],
     lineOptions: {
       styles: [{ color: "#FACC15", opacity: 1, weight: 8 }],
     },
