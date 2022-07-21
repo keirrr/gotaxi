@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
 import { BiCurrentLocation } from "react-icons/bi";
 
-const SearchStartInput = ({ setSearchResults, setIsSearching }) => {
+const SearchStartInput = ({
+  setSearchResults,
+  setIsSearching,
+  setSearchingType,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [locationName, setLocationName] = useState("");
   const [timer, setTimer] = useState(null);
@@ -33,8 +37,8 @@ const SearchStartInput = ({ setSearchResults, setIsSearching }) => {
     }
   };
 
-  const searchLocation = async () => {
-    const url = `https://nominatim.openstreetmap.org/search?q=${locationName}&format=json&polygon_geojson=1&addressdetails=1`;
+  const searchLocation = async (inputValue) => {
+    const url = `https://nominatim.openstreetmap.org/search?q=${inputValue}&format=json&addressdetails=1`;
 
     const res = await axios.get(url);
 
@@ -42,11 +46,12 @@ const SearchStartInput = ({ setSearchResults, setIsSearching }) => {
   };
 
   const inputChanged = (e) => {
-    setLocationName(e.target.value);
+    const inputValue = e.target.value;
+    setLocationName(inputValue);
     clearTimeout(timer);
 
     const newTimer = setTimeout(() => {
-      searchLocation();
+      searchLocation(inputValue);
     }, 500);
 
     setTimer(newTimer);
@@ -65,9 +70,11 @@ const SearchStartInput = ({ setSearchResults, setIsSearching }) => {
           placeholder="Skąd jedziemy?"
           id="start-search-input"
           className="absolute w-full h-full t-0 px-[40px] py-[5px] bg-gray-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-600"
+          autoComplete="off"
           onFocus={() => {
             setIsFocused(true);
             setIsSearching(true);
+            setSearchingType("start");
           }}
           onBlur={() => {
             setIsFocused(false);

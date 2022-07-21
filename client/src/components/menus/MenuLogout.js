@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 import { useState } from "react";
 
 //Redux
@@ -23,8 +25,10 @@ const MenuLogout = () => {
   const dispatch = useDispatch();
 
   const [isSearching, setIsSearching] = useState(false);
-
+  const [searchingType, setSearchingType] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+
+  //console.log(searchResults);
 
   return (
     <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
@@ -58,9 +62,14 @@ const MenuLogout = () => {
         {/* Search inputs */}
         <SearchStartInput
           setSearchResults={setSearchResults}
+          setSearchingType={setSearchingType}
           setIsSearching={setIsSearching}
         />
-        <SearchDestinationInput />
+        <SearchDestinationInput
+          setSearchResults={setSearchResults}
+          setSearchingType={setSearchingType}
+          setIsSearching={setIsSearching}
+        />
       </div>
       {/* Recent searches */}
       <div className="p-5 pt-[10px]">
@@ -76,6 +85,7 @@ const MenuLogout = () => {
           <SearchResultsList
             searchResults={searchResults}
             setIsSearching={setIsSearching}
+            searchingType={searchingType}
           />
         </div>
         <div className="flex justify-center w-full">
