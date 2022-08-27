@@ -2,10 +2,10 @@
 import { Link } from "react-router-dom";
 
 // React
-import { useState } from 'react'
+import { useState } from "react";
 
 // Axios
-
+import createUser from '../../features/createUser'
 
 // Components
 import TextInput from "../inputs/TextInput";
@@ -14,15 +14,22 @@ import { IoChevronBack } from "react-icons/io5";
 
 const MenuRegister = () => {
   const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    repassword: ''
-  })
+    name: "",
+    email: "",
+    password: "",
+    repassword: "",
+  });
+
+  const valueHandler = (elem, value) => {
+    setUserData((prevState) => ({
+      ...prevState,
+      [elem]: value,
+    }));
+  };
 
   const submitHandler = () => {
-    console.log(userData.name)
-  }
+    console.log(userData);
+  };
 
   return (
     <section className="absolute h-auto w-[400px] ml-5 mt-5 p-[20px] bg-white drop-shadow rounded-[20px]">
@@ -42,11 +49,36 @@ const MenuRegister = () => {
         <div className="p-1 w-[24px] h-[24px]"></div>
       </div>
       <div className="flex flex-col justify-center">
-        <TextInput placeholder="Imie" setValue={setUserData.name}/>
-        <TextInput placeholder="Adres e-mail" />
-        <TextInput placeholder="Hasło" />
-        <TextInput placeholder="Powtórz hasło" />
-        <Button name="Zarejestruj się" clickFunc={submitHandler} />
+        <TextInput
+          placeholder="Imie"
+          inputType="text"
+          updateState={valueHandler}
+          elemToUpdate="name"
+        />
+        <TextInput
+          placeholder="Adres e-mail"
+          inputType="text"
+          updateState={valueHandler}
+          elemToUpdate="email"
+        />
+        <TextInput
+          placeholder="Hasło"
+          inputType="password"
+          updateState={valueHandler}
+          elemToUpdate="password"
+        />
+        <TextInput
+          placeholder="Powtórz hasło"
+          inputType="password"
+          updateState={valueHandler}
+          elemToUpdate="repassword"
+        />
+        <button
+          onClick={createUser}
+          className="h-[40px] w-full mt-[20px] bg-yellow-400 rounded-[10px] transition-colors hover:bg-yellow-300 active:bg-yellow-500"
+        >
+          <span className="font-bold">Zarejestruj się</span>
+        </button>
         <div className="flex justify-center mt-[10px]">
           <span>Masz już konto?</span>
           <Link
