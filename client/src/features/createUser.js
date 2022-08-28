@@ -1,12 +1,14 @@
 // Axios
 import axios from "axios";
 
-const createUser = () => {
-  const url = "http://localhost:5000/createUser";
+const createUser = (name, email, password) => {
+  const url = "http://localhost:5000/api/users";
 
   axios
     .post(url, {
-      name: 'John'
+      name: name,
+      email: email,
+      password: password
     })
     .then((res) => {
       console.log(res);
