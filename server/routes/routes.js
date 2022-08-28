@@ -4,7 +4,7 @@ const Model = require('../models/model');
 const router = express.Router()
 
 //Post Method
-router.post('/post', async (req, res) => {
+router.post('/users', async (req, res) => {
     const data = new Model({
         name: req.body.name,
         email: req.body.email,
