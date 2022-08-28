@@ -4,14 +4,13 @@ import { Link } from "react-router-dom";
 // React
 import { useState } from "react";
 
-import validator from 'validator';
+import validator from "validator";
 
 // Axios
 import createUser from "../../features/createUser";
 
 // Components
 import TextInput from "../inputs/TextInput";
-import Button from "../buttons/Button";
 import { IoChevronBack } from "react-icons/io5";
 
 const MenuRegister = () => {
@@ -22,11 +21,6 @@ const MenuRegister = () => {
     repassword: "",
   });
 
-  const [isNameValid, setIsNameValid] = useState(true)
-  const [isEmailValid, setIsEmailValid] = useState(true)
-  const [isPasswordValid, setIsPasswordValid] = useState(true)
-  const [isRepasswordValid, setIsRepasswordValid] = useState(true)
-
   const valueHandler = (elem, value) => {
     setUserData((prevState) => ({
       ...prevState,
@@ -35,58 +29,109 @@ const MenuRegister = () => {
   };
 
   // Validation (but not DRY yet xD)
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [nameInputError, setNameInputError] = useState("");
+
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [emailInputError, setEmailInputError] = useState("");
+
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [passwordInputError, setPasswordInputError] = useState("");
+
+  const [isRepasswordValid, setIsRepasswordValid] = useState(true);
+  const [repasswordInputError, setRepasswordInputError] = useState("");
+
   const checkNameInput = () => {
-    if (userData.name.trim() === ""){
-      setIsNameValid(false)
+    if (userData.name.trim() === "") {
+      setIsNameValid(false);
+      setNameInputError("*Imie jest wymagane");
     } else {
-      setIsNameValid(true)
+      if (/[a-zA-Z]$/.test(userData.name) === false) {
+        setIsNameValid(false);
+        setNameInputError("*Imie może zawierać tylko litery");
+        return;
+      }
+      setIsNameValid(true);
+      setNameInputError("");
     }
-  }
+  };
 
   const checkEmailInput = () => {
-    if (userData.email.trim() === ""){
-      setIsEmailValid(false)
-      return
+    if (userData.email.trim() === "") {
+      setIsEmailValid(false);
+      setEmailInputError("*Adres email jest wymagany");
+      return;
     } else {
-      if (validator.isEmail(userData.email) === false){
-        setIsEmailValid(false)
-        return
+      if (validator.isEmail(userData.email) === false) {
+        setIsEmailValid(false);
+        setEmailInputError("*Adres email jest niepoprawny");
+        return;
       }
-      setIsEmailValid(true)
+      setIsEmailValid(true);
+      setEmailInputError("");
     }
-  }
+  };
 
   const checkPasswordInput = () => {
-    if (userData.password.trim() === ""){
-      setIsPasswordValid(false)
+    if (userData.password.trim() === "") {
+      setIsPasswordValid(false);
+      setPasswordInputError("*Hasło jest wymagane");
     } else {
-      if(userData.repassword !== userData.password){
-        setIsPasswordValid(false)
-        setIsRepasswordValid(false)
-        return
+      const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
+      if (regex.test(userData.password) === false) {
+        setIsPasswordValid(false);
+        setPasswordInputError(
+          "*Hasło powinno posiadać przynajmniej 8 znaków, jedną dużą literę oraz jedną małą literę"
+        );
+        return;
       }
-      setIsPasswordValid(true)
+      if (
+        userData.repassword.trim() !== "" &&
+        userData.password !== userData.repassword
+      ) {
+        setPasswordInputError("");
+        setIsPasswordValid(false);
+        setIsRepasswordValid(false);
+        setRepasswordInputError("*Hasła są od siebie różne");
+        return;
+      }
+      setIsPasswordValid(true);
+      setIsRepasswordValid(true);
+      setPasswordInputError("");
     }
-  }
+  };
 
   const checkRepasswordInput = () => {
-    if (userData.repassword.trim() === ""){
-      setIsRepasswordValid(false)
+    if (userData.repassword.trim() === "") {
+      setIsRepasswordValid(false);
+      setRepasswordInputError("*Powtórzenie hasła jest wymagane");
     } else {
-      if(userData.repassword !== userData.password){
-        setIsPasswordValid(false)
-        setIsRepasswordValid(false)
-        return
+      const regex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
+      if (regex.test(userData.password) === false) {
+        return;
       }
-      setIsRepasswordValid(true)
+      if (userData.repassword !== userData.password) {
+        setIsPasswordValid(false);
+        setIsRepasswordValid(false);
+        setRepasswordInputError("*Hasła są od siebie różne");
+        return;
+      }
+      setIsRepasswordValid(true);
+      setIsPasswordValid(true);
+      setRepasswordInputError("");
+      setPasswordInputError("");
     }
-  }
-
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    
+    // Validation
+    checkNameInput();
+    checkEmailInput();
+    checkPasswordInput();
+    checkRepasswordInput();
 
     createUser(userData.name, userData.email, userData.password);
   };
@@ -120,6 +165,11 @@ const MenuRegister = () => {
           checkInput={checkNameInput}
           isValid={isNameValid}
         />
+        {!isNameValid && (
+          <p className="text-right text-red-500 text-[14px]">
+            {nameInputError}
+          </p>
+        )}
         <TextInput
           placeholder="Adres e-mail"
           inputType="text"
@@ -128,6 +178,11 @@ const MenuRegister = () => {
           checkInput={checkEmailInput}
           isValid={isEmailValid}
         />
+        {!isEmailValid && (
+          <p className="text-right text-red-500 text-[14px]">
+            {emailInputError}
+          </p>
+        )}
         <TextInput
           placeholder="Hasło"
           inputType="password"
@@ -135,10 +190,14 @@ const MenuRegister = () => {
           elemToUpdate="password"
           min="8"
           max="64"
-          pattern="/(?=(.*[0-9]))((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.{8,64}$/"
           checkInput={checkPasswordInput}
           isValid={isPasswordValid}
         />
+        {!isPasswordValid && (
+          <p className="text-right text-red-500 text-[14px]">
+            {passwordInputError}
+          </p>
+        )}
         <TextInput
           placeholder="Powtórz hasło"
           inputType="password"
@@ -146,10 +205,14 @@ const MenuRegister = () => {
           elemToUpdate="repassword"
           min="8"
           max="64"
-          pattern="/(?=(.*[0-9]))((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.{8,64}$/"
           checkInput={checkRepasswordInput}
           isValid={isRepasswordValid}
         />
+        {!isRepasswordValid && (
+          <p className="text-right text-red-500 text-[14px]">
+            {repasswordInputError}
+          </p>
+        )}
         <button className="h-[40px] w-full mt-[20px] bg-yellow-400 rounded-[10px] transition-colors hover:bg-yellow-300 active:bg-yellow-500">
           <span className="font-bold">Zarejestruj się</span>
         </button>
