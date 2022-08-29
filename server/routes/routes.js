@@ -3,12 +3,17 @@ const Model = require('../models/model');
 
 const router = express.Router()
 
+const bcrypt = require('bcrypt')
+const saltRounds = 10;
+
 //Post Method
 router.post('/users', async (req, res) => {
+    const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
+
     const data = new Model({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: hashedPassword
     })
 
     try {
