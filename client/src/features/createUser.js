@@ -8,10 +8,13 @@ const createUser = (name, email, password) => {
     .post(url, {
       name: name,
       email: email,
-      password: password
+      password: password,
     })
     .then((res) => {
       console.log(res);
+      if (res.status === 200) {
+        return true;
+      }
     })
     .catch((err) => {
       console.log(err);

@@ -6,6 +6,8 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
 
+const session = require('express-session')
+
 //Post Method
 router.post('/users', async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
@@ -18,6 +20,8 @@ router.post('/users', async (req, res) => {
 
     try {
         const dataToSave = await data.save();
+        req.session.user = data;
+        console.log(req.session.user)
         res.status(200).json(dataToSave)
     }
     catch (error) {

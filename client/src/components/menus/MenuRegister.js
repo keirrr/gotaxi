@@ -2,7 +2,8 @@
 import { Link } from "react-router-dom";
 
 // React
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 import validator from "validator";
 
@@ -13,7 +14,16 @@ import createUser from "../../features/createUser";
 import TextInput from "../inputs/TextInput";
 import { IoChevronBack } from "react-icons/io5";
 
+// Features
+import isUserLogin from "../../features/isUserLogin";
+
 const MenuRegister = () => {
+  // if (!isUserLogin())
+  //   <Navigate to="/"/>
+  const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState();
+
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -106,8 +116,7 @@ const MenuRegister = () => {
       setIsRepasswordValid(false);
       setRepasswordInputError("*Powtórzenie hasła jest wymagane");
     } else {
-      const regex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
+      const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
       if (regex.test(userData.password) === false) {
         return;
       }
@@ -124,7 +133,7 @@ const MenuRegister = () => {
     }
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     // Validation

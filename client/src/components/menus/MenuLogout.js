@@ -7,6 +7,8 @@ import { changeScreenTo } from "../../features/menuScreen";
 // Router
 import { Outlet, Link } from "react-router-dom";
 
+import axios from 'axios'
+
 // Components
 import SearchStartInput from "../inputs/SearchStartInput";
 import SearchDestinationInput from "../inputs/SearchDestinationInput";
@@ -19,6 +21,8 @@ import { IoChevronBack } from "react-icons/io5";
 
 const MenuLogout = () => {
   const dispatch = useDispatch();
+
+  axios.get("http://localhost:5000/")
 
   return (
     <section className="absolute h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">

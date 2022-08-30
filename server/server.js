@@ -1,3 +1,4 @@
+// Server
 require('dotenv').config();
 
 const express = require("express");
@@ -5,13 +6,33 @@ const app = express();
 const mongoose = require("mongoose");
 
 const bodyParser = require("body-parser");
+const session = require("express-session")
+const cookieParser = require("cookie-parser")
 
 const routes = require('./routes/routes');
 
 // CORS
 const cors = require("cors");
 
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3000"],
+  methods: ["GET", "POST"],
+  credentials: true
+}));
+
+app.use(
+  session({
+    key: "userId",
+    secret: "9&$&ypOgo8^9Q2G4",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 60 * 60 * 24
+    }
+  })
+);
+
+app.use(cookieParser())
 
 // MongoDB connection
 const mongoString = process.env.DATABASE_URL;
