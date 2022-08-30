@@ -8,13 +8,13 @@ import MenuRegister from "./components/menus/MenuRegister";
 import MenuForgetPassword from "./components/menus/MenuForgetPassword";
 import MenuProfile from "./components/menus/MenuProfile";
 
-import { Outlet, Link } from "react-router-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import isUserLogin from './features/isUserLogin'
 
 import "./App.css";
 
 function App() {
-  const screen = useSelector((state) => state.menuScreen.screen);
   return (
     <BrowserRouter>
       <Routes>
@@ -26,33 +26,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-  // switch (screen) {
-  //   case "logout":
-  //     return (
-  //       <BrowserRouter>
-  //         <Routes>
-  //           <Route path="/" element={<MenuLogout />} />
-  //         </Routes>
-  //       </BrowserRouter>
-  //     );
-  //   case "login":
-  //     return (
-  //       <BrowserRouter>
-  //         <Routes>
-  //           <Route path="login" element={<MenuLogin />} />
-  //         </Routes>
-  //       </BrowserRouter>
-  //     );
-  //   default:
-  //     return (
-  //       <BrowserRouter>
-  //         <Routes>
-  //           <Route path="/" element={<MenuLogout />} />
-  //           <Outlet />
-  //         </Routes>
-  //       </BrowserRouter>
-  //     );
-  // }
 }
 
 export default App;
