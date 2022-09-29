@@ -3,16 +3,45 @@ import { useDispatch } from "react-redux";
 import { changeScreenTo } from "../../features/menuScreen";
 
 // Router
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 
-import { useState } from 'react'
+import { React, useState } from "react";
+
+import axios from "axios";
 
 import TextInput from "../inputs/TextInput";
 import Button from "../buttons/Button";
 
+import loginUser from "../../features/loginUser";
+
 import { IoChevronBack } from "react-icons/io5";
 
 const MenuLogin = () => {
+  const navigate = useNavigate();
+
+  const isAuthUrl = "http://localhost:5000/api/isAuth";
+  axios.get(isAuthUrl).then((res) => {
+    navigate("/profile");
+  });
+
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const valueHandler = (elem, value) => {
+    setUserData((prevState) => ({
+      ...prevState,
+      [elem]: value,
+    }));
+  };
+
+  const checkFakeInput = () => {};
+
+  const loginUserHandler = (e) => {
+    e.preventDefault();
+    loginUser(userData.email, userData.password);
+  };
 
   return (
     <section className="absolute h-auto w-[400px] ml-5 mt-5 p-[20px] bg-white drop-shadow rounded-[20px]">
@@ -20,9 +49,7 @@ const MenuLogin = () => {
       <div className="flex pb-[10px] w-full">
         {/* Back icon */}
         <Link to="/">
-          <button
-            className="relative p-1 flex items-center w-[24px] h-[24px]"
-          >
+          <button className="relative p-1 flex items-center w-[24px] h-[24px]">
             <IoChevronBack color="#111827" className="w-[24px] h-[24px]" />
           </button>
         </Link>
@@ -33,9 +60,21 @@ const MenuLogin = () => {
         <div className="p-1 w-[24px] h-[24px]"></div>
       </div>
       <div className="flex flex-col justify-center">
-        <TextInput placeholder="Adres e-mail" />
-        <TextInput placeholder="Hasło" />
-        <Button name="Zaloguj się" />
+        <form onSubmit={loginUserHandler}>
+          <TextInput
+            placeholder="Adres e-mail"
+            updateState={valueHandler}
+            checkInput={checkFakeInput}
+            elemToUpdate="email"
+          />
+          <TextInput
+            placeholder="Hasło"
+            updateState={valueHandler}
+            checkInput={checkFakeInput}
+            elemToUpdate="password"
+          />
+          <Button name="Zaloguj się" />
+        </form>
 
         <Link
           to="/recover"
