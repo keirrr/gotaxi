@@ -2,6 +2,8 @@ import Button from "../buttons/Button";
 
 import axios from "axios";
 
+import logoutUser from '../../features/logoutUser'
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,17 +13,22 @@ import { BiUserCircle } from "react-icons/bi";
 const MenuProfile = () => {
   const navigate = useNavigate();
 
-  const isAuthUrl = "http://localhost:5000/api/isAuth";
-  React.useEffect(() => {
-    axios
-      .get(isAuthUrl)
-      .then((res) => {
-      })
-      .catch(function (error) {
-        navigate("/login");
-        console.log(error);
-      });
-  });
+  // const isAuthUrl = "http://localhost:5000/api/isAuth";
+  // React.useEffect(() => {
+  //   axios
+  //     .get(isAuthUrl)
+  //     .then((res) => {
+  //     })
+  //     .catch(function (error) {
+  //       navigate("/login");
+  //       console.log(error);
+  //     });
+  // });
+
+  const logoutHandler = () => {
+    console.log("logout clicked")
+    logoutUser()
+  }
 
   return (
     <section className="absolute h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
@@ -50,7 +57,7 @@ const MenuProfile = () => {
       </div>
       {/* Recent searches */}
       <div className="p-5 pt-0">
-        <Button name="Wyloguj się" />
+        <Button name="Wyloguj się" clickFunc={logoutHandler}/>
       </div>
     </section>
   );
