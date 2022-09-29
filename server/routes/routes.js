@@ -104,6 +104,19 @@ router.post("/login", async (req, res) => {
   console.log(user);
 });
 
+//Logout user
+router.post("/logout", async (req, res) => {
+  console.log("delete session")
+  req.session.destroy((err) => {
+    if (err) throw err
+
+    console.log("deleting session")
+
+    res.clearCookie('session-id')
+    res.status(200).send("Pomyślnie wylogowano")
+  })
+})
+
 //Check if user is login
 router.get("/isAuth", async (req, res) => {
   if (req.session.user){
