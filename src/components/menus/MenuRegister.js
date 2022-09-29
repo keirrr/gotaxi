@@ -2,25 +2,27 @@
 import { Link } from "react-router-dom";
 
 // React
-import { useState, useCallback } from "react";
+import { React, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import validator from "validator";
 
 // Axios
+import axios from "axios";
+
 import createUser from "../../features/createUser";
 
 // Components
 import TextInput from "../inputs/TextInput";
 import { IoChevronBack } from "react-icons/io5";
 
-// Features
-import isUserLogin from "../../features/isUserLogin";
-
 const MenuRegister = () => {
-  // if (!isUserLogin())
-  //   <Navigate to="/"/>
   const navigate = useNavigate();
+
+  const isAuthUrl = "http://localhost:5000/api/isAuth";
+  axios.get(isAuthUrl).then((res) => {
+    navigate("/profile");
+  });
 
   const [isLoggedIn, setIsLoggedIn] = useState();
 

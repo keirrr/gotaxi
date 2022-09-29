@@ -22,7 +22,7 @@ import { IoChevronBack } from "react-icons/io5";
 const MenuLogout = () => {
   const dispatch = useDispatch();
 
-  axios.get("http://localhost:5000/")
+  //axios.get("http://localhost:5000/")
 
   return (
     <section className="absolute h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
@@ -40,7 +40,7 @@ const MenuLogout = () => {
             </span>
           </div>
           {/* Profile button */}
-          <Link to="/login">
+          <Link to="/profile">
             <button
               className="relative p-1 flex items-center"
               onClick={() => dispatch(changeScreenTo("login"))}
