@@ -1,38 +1,43 @@
 // Server
-require('dotenv').config();
+require("dotenv").config();
 
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 
 const bodyParser = require("body-parser");
-const session = require("express-session")
-const cookieParser = require("cookie-parser")
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const cookieParser = require("cookie-parser");
 
-const routes = require('./routes/routes');
+const routes = require("./routes/routes");
 
 // CORS
 const cors = require("cors");
 
-app.use(cors({
-  origin: ["http://localhost:3000"],
-  methods: ["GET", "POST"],
-  credentials: true
-}));
+const mongoDBstore = new MongoDBStore({
+  uri: process.env.DATABASE_URL,
+  collection: "sessions",
+});
+
+const MAX_AGE = 1000 * 60 * 60 * 3;
 
 app.use(
   session({
-    key: "userId",
     secret: "9&$&ypOgo8^9Q2G4",
-    resave: false,
-    saveUninitialized: false,
+    name: "session-id",
+    store: mongoDBstore,
     cookie: {
-      expires: 60 * 60 * 24
-    }
+      maxAge: MAX_AGE,
+      sameSite: false,
+      secure: false,
+    },
+    resave: true,
+    saveUninitialized: false,
   })
 );
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 // MongoDB connection
 const mongoString = process.env.DATABASE_URL;
@@ -54,7 +59,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use('/api', routes);
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
+
+app.use("/api", routes);
 
 app.post("/createUser", (req, res) => {
   console.log("Data sended");
