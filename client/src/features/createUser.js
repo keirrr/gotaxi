@@ -1,15 +1,19 @@
 // Axios
 import axios from "axios";
 
-const createUser = (name, email, password) => {
+const createUser = async (name, email, password) => {
   const url = "http://localhost:5000/api/users";
 
-  axios
-    .post(url, {
-      name: name,
-      email: email,
-      password: password,
-    })
+  const res = await axios
+    .post(
+      url,
+      {
+        name: name,
+        email: email,
+        password: password,
+      },
+      { withCredentials: true }
+    )
     .then((res) => {
       console.log(res);
       if (res.status === 200) {
@@ -19,6 +23,8 @@ const createUser = (name, email, password) => {
     .catch((err) => {
       console.log(err);
     });
+
+  return res;
 };
 
 export default createUser;

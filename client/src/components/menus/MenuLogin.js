@@ -5,7 +5,7 @@ import { changeScreenTo } from "../../features/menuScreen";
 // Router
 import { Outlet, Link, useNavigate } from "react-router-dom";
 
-import { React, useState } from "react";
+import { useEffect, useState } from "react";
 
 import axios from "axios";
 
@@ -20,9 +20,17 @@ const MenuLogin = () => {
   const navigate = useNavigate();
 
   const isAuthUrl = "http://localhost:5000/api/isAuth";
-  axios.get(isAuthUrl).then((res) => {
-    navigate("/profile");
-  });
+  useEffect(() => {
+    const res = axios.get(isAuthUrl, {
+      withCredentials: true,
+    });
+
+    res.then((res) => {
+      if (res.status === 200) {
+        navigate("/profile");
+      }
+    });
+  }, [navigate]);
 
   const [userData, setUserData] = useState({
     email: "",
@@ -38,9 +46,12 @@ const MenuLogin = () => {
 
   const checkFakeInput = () => {};
 
-  const loginUserHandler = (e) => {
+  const loginUserHandler = async (e) => {
     e.preventDefault();
-    loginUser(userData.email, userData.password);
+    const login = await loginUser(userData.email, userData.password);
+    if (login) {
+      navigate("/profile");
+    }
   };
 
   return (
