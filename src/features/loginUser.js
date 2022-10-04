@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const loginUser = (email, password) => {
+const loginUser = async (email, password) => {
   const url = "http://localhost:5000/api/login";
 
-  axios
+  const res = await axios
     .post(
       url,
       {
@@ -13,14 +13,17 @@ const loginUser = (email, password) => {
       { withCredentials: true }
     )
     .then((res) => {
-      console.log(res);
       if (res.status === 200) {
         return true;
       }
+      return false
     })
     .catch((err) => {
       console.log(err);
+      return false;
     });
+
+    return res
 };
 
 export default loginUser;

@@ -2,9 +2,9 @@ import Button from "../buttons/Button";
 
 import axios from "axios";
 
-import logoutUser from '../../features/logoutUser'
+import logoutUser from "../../features/logoutUser";
 
-import React from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { IoChevronBack } from "react-icons/io5";
@@ -13,22 +13,32 @@ import { BiUserCircle } from "react-icons/bi";
 const MenuProfile = () => {
   const navigate = useNavigate();
 
-  // const isAuthUrl = "http://localhost:5000/api/isAuth";
-  // React.useEffect(() => {
-  //   axios
-  //     .get(isAuthUrl)
-  //     .then((res) => {
-  //     })
-  //     .catch(function (error) {
-  //       navigate("/login");
-  //       console.log(error);
-  //     });
-  // });
+  useEffect(() => {
+    const isAuthUrl = "http://localhost:5000/api/isAuth";
+    axios
+      .get(isAuthUrl, { withCredentials: true })
+      .catch((res) => {
+        if (res.status !== 200) {
+          navigate("/login");
+        }
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
-  const logoutHandler = () => {
-    console.log("logout clicked")
-    logoutUser()
-  }
+  const backBtnHandler = () => {
+    navigate("/");
+  };
+
+  const logoutHandler = async () => {
+    const logout = await logoutUser();
+    if (logout) {
+      console.log(logout);
+      navigate("/");
+    }
+  };
 
   return (
     <section className="absolute h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
@@ -37,7 +47,10 @@ const MenuProfile = () => {
         {/* Controls */}
         <div className="flex w-full">
           {/* Back icon */}
-          <button className="relative p-1 flex items-center w-[24px] h-[24px]">
+          <button
+            onClick={backBtnHandler}
+            className="relative p-1 flex items-center w-[24px] h-[24px]"
+          >
             <IoChevronBack color="#111827" className="w-[24px] h-[24px]" />
           </button>
           {/* Logo */}
@@ -57,7 +70,7 @@ const MenuProfile = () => {
       </div>
       {/* Recent searches */}
       <div className="p-5 pt-0">
-        <Button name="Wyloguj się" clickFunc={logoutHandler}/>
+        <Button name="Wyloguj się" clickFunc={logoutHandler} />
       </div>
     </section>
   );

@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 // React
-import { React, useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import validator from "validator";
@@ -20,11 +20,17 @@ const MenuRegister = () => {
   const navigate = useNavigate();
 
   const isAuthUrl = "http://localhost:5000/api/isAuth";
-  axios.get(isAuthUrl).then((res) => {
-    navigate("/profile");
-  });
+  useEffect(() => {
+    const res = axios.get(isAuthUrl, {
+      withCredentials: true,
+    });
 
-  const [isLoggedIn, setIsLoggedIn] = useState();
+    res.then((res) => {
+      if (res.status === 200) {
+        navigate("/profile");
+      }
+    });
+  }, [navigate]);
 
   const [userData, setUserData] = useState({
     name: "",
@@ -144,7 +150,14 @@ const MenuRegister = () => {
     checkPasswordInput();
     checkRepasswordInput();
 
-    createUser(userData.name, userData.email, userData.password);
+    const register = await createUser(
+      userData.name,
+      userData.email,
+      userData.password
+    );
+    if (register) {
+      navigate("/profile");
+    }
   };
 
   return (
