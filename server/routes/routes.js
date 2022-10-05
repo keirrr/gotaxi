@@ -18,6 +18,11 @@ router.post("/users", async (req, res) => {
     password: hashedPassword,
   });
 
+  const user = await Model.findOne({ email: req.body.email });
+  if (user) {
+    return res.status(200).json({ message: "Email exists" });
+  }
+
   try {
     const dataToSave = await data.save();
     res.status(200).json(dataToSave);
@@ -36,13 +41,18 @@ router.get("/getAll", async (req, res) => {
   }
 });
 
-//Get by ID Method
-router.get("/getOne/:id", async (req, res) => {
+//Get user by email
+router.get("/getOne/:email", async (req, res) => {
+  console.log(req.params.email);
   try {
-    const data = await Model.findById(req.params.id);
-    res.json(data);
+    const data = await Model.findOne({ email: req.params.email });
+    if (data) {
+      return res.status(200).json({ message: "Email exists" });
+    } else {
+      return res.status(200).json({ message: "Email not found" });
+    }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 });
 
@@ -80,13 +90,13 @@ router.post("/login", async (req, res) => {
   console.log(password);
 
   if (!email || !password) {
-    res.status(400).json({ msg: "Czegoś brakuje" });
+    res.status(400).json({ msg: "Something missing" });
   }
 
   const user = await Model.findOne({ email: email });
 
   if (!user) {
-    return res.status(400).json({ msg: "Nie znaleziono takiego użytkownika" });
+    return res.status(400).json({ msg: "Email not found" });
   }
 
   const matchPassword = await bcrypt.compare(password, user.password);
@@ -98,7 +108,7 @@ router.post("/login", async (req, res) => {
       .status(200)
       .json({ msg: "Zostałeś poprawnie zalogowany", userSession });
   } else {
-    return res.status(400).json({ msg: "Nieprawidłowe dane" });
+    return res.status(400).json({ message: "Wrong data" });
   }
 
   console.log(user);
