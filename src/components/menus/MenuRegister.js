@@ -74,16 +74,24 @@ const MenuRegister = () => {
     }
   };
 
-  const checkEmailInput = () => {
+  const checkEmailInput = async () => {
     if (userData.email.trim() === "") {
       setIsEmailValid(false);
       setEmailInputError("*Adres email jest wymagany");
       return;
     } else {
-      if (validator.isEmail(userData.email) === false) {
+      if (validator.isEmail(userData.email.trim()) === false) {
         setIsEmailValid(false);
         setEmailInputError("*Adres email jest niepoprawny");
         return;
+      } else {
+        const url = `http://localhost:5000/api/getOne/${userData.email.trim()}`;
+        const user = await axios.get(url, { withCredentials: true });
+        if (user.data.message === "User exists") {
+          setIsEmailValid(false);
+          setEmailInputError("*Podany adres email już istnieje");
+          return;
+        }
       }
       setIsEmailValid(true);
       setEmailInputError("");

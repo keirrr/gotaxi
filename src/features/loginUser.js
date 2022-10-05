@@ -16,14 +16,16 @@ const loginUser = async (email, password) => {
       if (res.status === 200) {
         return true;
       }
-      return false
+      return false;
     })
     .catch((err) => {
-      console.log(err);
+      if (JSON.parse(err.request.responseText).message === "Wrong data") {
+        return ({ msg: "Wrong data"})
+      }
       return false;
     });
 
-    return res
+  return res;
 };
 
 export default loginUser;
