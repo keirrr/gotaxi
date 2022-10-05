@@ -23,6 +23,7 @@ function App() {
         <Route path="register" element={<MenuRegister />} />
         <Route path="recover" element={<MenuForgetPassword />} />
         <Route path="profile" element={<MenuProfile />} />
+        <Route path="*" element={<Navigate to="/"/>} />
       </Routes>
     </BrowserRouter>
   );

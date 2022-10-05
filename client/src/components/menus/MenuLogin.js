@@ -14,11 +14,13 @@ import Button from "../buttons/Button";
 
 import loginUser from "../../features/loginUser";
 
+import validator from "validator";
+
 import { IoChevronBack } from "react-icons/io5";
 
 const MenuLogin = () => {
+  // Redirect if user is authenticated
   const navigate = useNavigate();
-
   const isAuthUrl = "http://localhost:5000/api/isAuth";
   useEffect(() => {
     const res = axios.get(isAuthUrl, {
@@ -37,6 +39,12 @@ const MenuLogin = () => {
     password: "",
   });
 
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [emailError, setEmailError] = useState();
+
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [passwordError, setPasswordError] = useState();
+
   const valueHandler = (elem, value) => {
     setUserData((prevState) => ({
       ...prevState,
@@ -44,12 +52,37 @@ const MenuLogin = () => {
     }));
   };
 
-  const checkFakeInput = () => {};
+  // Check if email exist
+  const checkEmailInput = async () => {
+    if (userData.email.trim() !== "") {
+      if (validator.isEmail(userData.email.trim()) === true) {
+        const userEmail = userData.email.trim();
+        const url = `http://localhost:5000/api/getOne/${userEmail}`;
+        const user = await axios.get(url, { withCredentials: true });
+        console.log(user);
+        if (user.data.message === "Email not found") {
+          setIsEmailValid(false);
+          setEmailError("*Podany email nie istnieje");
+
+          setIsPasswordValid(true);
+          setPasswordError();
+          return;
+        }
+        setIsEmailValid(true);
+        setEmailError();
+      }
+    }
+  };
 
   const loginUserHandler = async (e) => {
     e.preventDefault();
+
     const login = await loginUser(userData.email, userData.password);
-    if (login) {
+    console.log(login);
+    if (login.msg === "Wrong data") {
+      setIsPasswordValid(false);
+      setPasswordError("*Podane hasło jest błędne");
+    } else if (login) {
       navigate("/profile");
     }
   };
@@ -74,16 +107,28 @@ const MenuLogin = () => {
         <form onSubmit={loginUserHandler}>
           <TextInput
             placeholder="Adres e-mail"
+            inputType="email"
             updateState={valueHandler}
-            checkInput={checkFakeInput}
+            checkInput={checkEmailInput}
             elemToUpdate="email"
+            isValid={isEmailValid}
           />
+          {!isEmailValid && (
+            <p className="text-right text-red-500 text-[14px]">{emailError}</p>
+          )}
           <TextInput
             placeholder="Hasło"
+            inputType="password"
             updateState={valueHandler}
-            checkInput={checkFakeInput}
+            checkInput={() => {}}
             elemToUpdate="password"
+            isValid={isPasswordValid}
           />
+          {!isPasswordValid && (
+            <p className="text-right text-red-500 text-[14px]">
+              {passwordError}
+            </p>
+          )}
           <Button name="Zaloguj się" />
         </form>
 
