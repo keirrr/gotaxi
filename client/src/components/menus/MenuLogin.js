@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import TextInput from "../inputs/TextInput";
+import PasswordInput from '../inputs/PasswordInput'
 import Button from "../buttons/Button";
 
 import loginUser from "../../features/loginUser";
@@ -116,7 +117,7 @@ const MenuLogin = () => {
           {!isEmailValid && (
             <p className="text-right text-red-500 text-[14px]">{emailError}</p>
           )}
-          <TextInput
+          <PasswordInput
             placeholder="Hasło"
             inputType="password"
             updateState={valueHandler}
