@@ -1,20 +1,39 @@
-// Redux
-import { useSelector } from "react-redux";
-
 // Components
 import MenuLogout from "./components/menus/MenuLogout";
 import MenuLogin from "./components/menus/MenuLogin";
 import MenuRegister from "./components/menus/MenuRegister";
 import MenuForgetPassword from "./components/menus/MenuForgetPassword";
 import MenuProfile from "./components/menus/MenuProfile";
+import NotificationElem from "./features/notificationElem";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import isUserLogin from './features/isUserLogin'
+import { useState, useEffect } from "react";
+
+// Import Redux and notificationSlice
+import { useSelector, useDispatch } from "react-redux";
+import { clearContent, setContent } from "./store/notificationSlice";
 
 import "./App.css";
 
-function App() {
+const App = () => {
+  // Read content of notification from its Slice
+  const content = useSelector((state) => state.notification.content);
+  const dispatch = useDispatch();
+
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    if (content === "") {
+      console.log("cleared", showNotification);
+      setShowNotification(false);
+    } else {
+      console.log("changed", showNotification);
+      setShowNotification(true);
+      dispatch(clearContent);
+    }
+  }, [content, showNotification, dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -23,10 +42,11 @@ function App() {
         <Route path="register" element={<MenuRegister />} />
         <Route path="recover" element={<MenuForgetPassword />} />
         <Route path="profile" element={<MenuProfile />} />
-        <Route path="*" element={<Navigate to="/"/>} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      {showNotification && <NotificationElem content={content} />}
     </BrowserRouter>
   );
-}
+};
 
 export default App;

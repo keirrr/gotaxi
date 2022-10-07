@@ -1,9 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit'
+// Create Redux store
+import { configureStore } from "@reduxjs/toolkit";
 
-import menuScreenReducer from '../features/menuScreen'
+import notificationReducer from "./notificationSlice";
 
 export const store = configureStore({
   reducer: {
-      menuScreen: menuScreenReducer
+    // Add notificationSlice to the Store
+    notification: notificationReducer,
   },
-})
+});

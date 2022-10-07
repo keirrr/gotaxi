@@ -5,12 +5,18 @@ import axios from "axios";
 import logoutUser from "../../features/logoutUser";
 
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { IoChevronBack } from "react-icons/io5";
 import { BiUserCircle } from "react-icons/bi";
 
+// Import Redux and notificationSlice
+import { useDispatch } from "react-redux";
+import { setContent } from "../../store/notificationSlice";
+
 const MenuProfile = () => {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +41,7 @@ const MenuProfile = () => {
   const logoutHandler = async () => {
     const logout = await logoutUser();
     if (logout) {
-      console.log(logout);
+      dispatch(setContent("Pomyślnie wylogowano!"));
       navigate("/");
     }
   };
