@@ -1,16 +1,12 @@
-// Redux
-import { useDispatch } from "react-redux";
-import { changeScreenTo } from "../../features/menuScreen";
-
 // Router
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
 import axios from "axios";
 
 import TextInput from "../inputs/TextInput";
-import PasswordInput from '../inputs/PasswordInput'
+import PasswordInput from "../inputs/PasswordInput";
 import Button from "../buttons/Button";
 
 import loginUser from "../../features/loginUser";
@@ -19,7 +15,13 @@ import validator from "validator";
 
 import { IoChevronBack } from "react-icons/io5";
 
+// Import Redux and notificationSlice
+import { useDispatch } from "react-redux";
+import { setContent } from "../../store/notificationSlice";
+
 const MenuLogin = () => {
+  const dispatch = useDispatch();
+
   // Redirect if user is authenticated
   const navigate = useNavigate();
   const isAuthUrl = "http://localhost:5000/api/isAuth";
@@ -84,6 +86,7 @@ const MenuLogin = () => {
       setIsPasswordValid(false);
       setPasswordError("*Podane hasło jest błędne");
     } else if (login) {
+      dispatch(setContent("Pomyślnie zalogowano!"));
       navigate("/profile");
     }
   };
