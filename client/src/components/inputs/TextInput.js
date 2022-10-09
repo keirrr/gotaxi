@@ -6,12 +6,15 @@ const TextInput = (props) => {
       min={props.min}
       max={props.max}
       pattern={props.pattern}
+      value={props.value}
       required
       onChange={(e) =>
         props.updateState(props.elemToUpdate, e.target.value.trim())
       }
       onBlur={() => props.checkInput()}
-      className={`h-[40px] w-full px-[10px] mt-[10px] bg-gray-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-600 ${!props.isValid && "ring-2 ring-red-500"}`}
+      className={`h-[40px] w-full px-[10px] mt-[10px] bg-gray-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-600 ${
+        !props.isValid && "ring-2 ring-red-500"
+      }`}
     />
   );
 };
