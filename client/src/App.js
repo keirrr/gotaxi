@@ -25,12 +25,13 @@ const App = () => {
 
   useEffect(() => {
     if (content === "") {
-      console.log("cleared", showNotification);
       setShowNotification(false);
     } else {
-      console.log("changed", showNotification);
       setShowNotification(true);
-      dispatch(clearContent);
+      setTimeout(() => {
+        dispatch(clearContent());
+        setShowNotification(false);
+      }, 3000);
     }
   }, [content, showNotification, dispatch]);
 
