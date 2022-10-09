@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 
 // Import Redux and notificationSlice
 import { useSelector, useDispatch } from "react-redux";
-import { clearContent, setContent } from "./store/notificationSlice";
+import { clearContent } from "./store/notificationSlice";
 
 import "./App.css";
 

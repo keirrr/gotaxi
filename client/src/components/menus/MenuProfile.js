@@ -4,8 +4,8 @@ import axios from "axios";
 
 import logoutUser from "../../features/logoutUser";
 
-import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { IoChevronBack } from "react-icons/io5";
 import { BiUserCircle } from "react-icons/bi";
@@ -19,9 +19,13 @@ const MenuProfile = () => {
 
   const navigate = useNavigate();
 
+  const [userData, setUserData] = useState({
+    email: "",
+  });
+
   useEffect(() => {
     const isAuthUrl = "http://localhost:5000/api/isAuth";
-    axios
+    const isAuthData = axios
       .get(isAuthUrl, { withCredentials: true })
       .catch((res) => {
         if (res.status !== 200) {
@@ -32,6 +36,10 @@ const MenuProfile = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    isAuthData.then((res) => {
+      setUserData({ email: res.data.email });
+    });
   });
 
   const backBtnHandler = () => {
@@ -72,7 +80,7 @@ const MenuProfile = () => {
         </div>
 
         {/* Username */}
-        <p className="text-center font-bold text-lg">Username</p>
+        <p className="text-center font-bold text-lg">{userData.email}</p>
       </div>
       {/* Recent searches */}
       <div className="p-5 pt-0">
