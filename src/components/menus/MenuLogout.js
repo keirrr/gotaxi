@@ -7,7 +7,7 @@ import { changeScreenTo } from "../../features/menuScreen";
 // Router
 import { Outlet, Link } from "react-router-dom";
 
-import axios from 'axios'
+import axios from "axios";
 
 // Components
 import SearchStartInput from "../inputs/SearchStartInput";
@@ -22,10 +22,8 @@ import { IoChevronBack } from "react-icons/io5";
 const MenuLogout = () => {
   const dispatch = useDispatch();
 
-  //axios.get("http://localhost:5000/")
-
   return (
-    <section className="absolute h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
+    <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
       {/* Top section */}
       <div className="relative h-auto w-full p-5 rounded-t-[20px] bg-yellow-400">
         {/* Controls */}
@@ -34,7 +32,11 @@ const MenuLogout = () => {
           <div className="p-1 w-[24px] h-[24px]"></div>
           {/* Logo */}
           <div className="flex items-center">
-            <img className="h-[20px] mr-[5px]" src="/imgs/svgs/gotaxi-logo.svg" alt="GoTaxi Logo"/>
+            <img
+              className="h-[20px] mr-[5px]"
+              src="/imgs/svgs/gotaxi-logo.svg"
+              alt="GoTaxi Logo"
+            />
             <span className="relative text-xl font-black text-gray-900 m-0 mx-auto">
               GoTaxi
             </span>

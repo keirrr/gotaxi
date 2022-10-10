@@ -2,17 +2,20 @@ import TextInput from "../inputs/TextInput";
 import Button from "../buttons/Button";
 
 // Router
-import  { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 import { IoChevronBack } from "react-icons/io5";
 
 const MenuForgetPassword = () => {
   return (
-    <section className="absolute h-auto w-[400px] ml-5 mt-5 p-[20px] bg-white drop-shadow rounded-[20px]">
+    <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 p-[20px] bg-white drop-shadow rounded-[20px]">
       {/* Top section */}
       <div className="flex pb-[10px] w-full">
         {/* Back icon */}
-        <Link to="/login" className="relative p-1 flex items-center w-[24px] h-[24px]">
+        <Link
+          to="/login"
+          className="relative p-1 flex items-center w-[24px] h-[24px]"
+        >
           <IoChevronBack color="#111827" className="w-[24px] h-[24px]" />
         </Link>
         {/* Logo */}

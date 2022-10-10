@@ -169,7 +169,7 @@ const MenuRegister = () => {
   };
 
   return (
-    <section className="absolute h-auto w-[400px] ml-5 mt-5 p-[20px] bg-white drop-shadow rounded-[20px]">
+    <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 p-[20px] bg-white drop-shadow rounded-[20px]">
       {/* Top section */}
       <div className="flex pb-[10px] w-full">
         {/* Back icon */}

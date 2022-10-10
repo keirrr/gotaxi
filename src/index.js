@@ -7,12 +7,14 @@ import App from "./App";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
 
+import Map from "../src/components/map/map";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <div className="absolute bg-cover h-full w-full bg-[url('https://i.imgur.com/WgW280A.jpeg')]">
-      <p> </p>
+    <div className="relative h-screen w-screen">
+      <App />
+      <Map />
     </div>
-    <App />
   </Provider>
 );

@@ -55,7 +55,7 @@ const MenuProfile = () => {
   };
 
   return (
-    <section className="absolute h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
+    <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
       {/* Top section */}
       <div className="relative h-auto w-full p-5 rounded-t-[20px] bg-yellow-400">
         {/* Controls */}
