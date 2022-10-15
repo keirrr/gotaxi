@@ -14,6 +14,7 @@ import SearchStartInput from "../inputs/SearchStartInput";
 import SearchDestinationInput from "../inputs/SearchDestinationInput";
 import RecentSearchItem from "../RecentSearchItem";
 import SearchButton from "../buttons/SearchButton";
+import SearchResultsList from "../map/results/SearchResultsList";
 
 // Icons
 import { BiUser } from "react-icons/bi";
@@ -57,11 +58,12 @@ const MenuLogout = () => {
       </div>
       {/* Recent searches */}
       <div className="p-5 pt-[10px]">
-        <div className="pb-[20px]">
-          <p className="font-bold">Ostatnie wyszukiwania</p>
+        <div className="pb-[20px] relative">
+          <SearchResultsList />
+          {/* <p className="font-bold">Ostatnie wyszukiwania</p>
           <RecentSearchItem />
           <RecentSearchItem />
-          <RecentSearchItem />
+          <RecentSearchItem /> */}
         </div>
         <div className="flex justify-center w-full">
           <SearchButton />
