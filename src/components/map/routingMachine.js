@@ -6,12 +6,9 @@ import "leaflet-routing-machine";
 // CSS
 import "./style.css";
 
-const createRoutingMachineLayer = (props) => {
+const CreateRoutingMachineLayer = (props) => {
   const control = L.Routing.control({
-    waypoints: [
-      L.latLng(50.2795003, 18.9704121),
-      L.latLng(50.2586555, 19.0420145),
-    ],
+    waypoints: [L.latLng(null, null), L.latLng(null, null)],
     lineOptions: {
       styles: [{ color: "#FACC15", opacity: 1, weight: 8 }],
     },
@@ -32,6 +29,6 @@ const createRoutingMachineLayer = (props) => {
   return control;
 };
 
-const RoutingMachine = createControlComponent(createRoutingMachineLayer);
+const RoutingMachine = createControlComponent(CreateRoutingMachineLayer);
 
 export default RoutingMachine;

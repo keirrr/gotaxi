@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import axios from "axios";
 
 import { BiCurrentLocation } from "react-icons/bi";
 
-const SearchStartInput = () => {
+const SearchStartInput = ({ setSearchResults, setIsSearching }) => {
   const [isFocused, setIsFocused] = useState(false);
-
-  const [userLocation, setUserLocation] = useState([]);
   const [locationName, setLocationName] = useState("");
-
   const [timer, setTimer] = useState(null);
 
   const getCurrentPosition = async (props) => {
@@ -40,7 +37,8 @@ const SearchStartInput = () => {
     const url = `https://nominatim.openstreetmap.org/search?q=${locationName}&format=json&polygon_geojson=1&addressdetails=1`;
 
     const res = await axios.get(url);
-    console.log(res);
+
+    setSearchResults(res);
   };
 
   const inputChanged = (e) => {
@@ -65,11 +63,17 @@ const SearchStartInput = () => {
         <input
           type="text"
           placeholder="Skąd jedziemy?"
+          id="start-search-input"
           className="absolute w-full h-full t-0 px-[40px] py-[5px] bg-gray-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-600"
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onFocus={() => {
+            setIsFocused(true);
+            setIsSearching(true);
+          }}
+          onBlur={() => {
+            setIsFocused(false);
+            setIsSearching(false);
+          }}
           onChange={inputChanged}
-          value={locationName}
         />
         <button
           onClick={getCurrentPosition}
