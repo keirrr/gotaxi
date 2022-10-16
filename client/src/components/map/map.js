@@ -11,6 +11,11 @@ const Map = () => {
   const accessToken =
     "3TMAJftD9pk68IEFxYhkdN0eUhQt9bArNsXGr66oeo7wjs6UkERfY7zyep3quFZc";
 
+  // const coords = useSelector((state) => state.locationCoords);
+  // console.log(coords);
+
+  console.log(RoutingMachine);
+
   return (
     <section className="absolute z-0 h-screen w-screen">
       <MapContainer

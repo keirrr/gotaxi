@@ -1,3 +1,15 @@
 .leaflet-routing-container{
     display: none;
 }
+
+.leaflet-bar {
+    border-radius: 10px !important;
+}
+
+.leaflet-touch .leaflet-bar a:first-child {
+    border-radius: 10px 10px 0 0 !important
+}
+
+.leaflet-touch .leaflet-bar a:last-child {
+    border-radius: 0 0 10px 10px !important
+}

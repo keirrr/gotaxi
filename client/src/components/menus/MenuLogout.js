@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 //Redux
 // useSelector is used for reading data
 // useDispatch is used for updating data
@@ -7,21 +9,22 @@ import { changeScreenTo } from "../../features/menuScreen";
 // Router
 import { Outlet, Link } from "react-router-dom";
 
-import axios from "axios";
-
 // Components
 import SearchStartInput from "../inputs/SearchStartInput";
 import SearchDestinationInput from "../inputs/SearchDestinationInput";
-import RecentSearchItem from "../RecentSearchItem";
 import SearchButton from "../buttons/SearchButton";
 import SearchResultsList from "../map/results/SearchResultsList";
+import RecentSearchResultsList from "../map/results/RecentSearchResultsList";
 
 // Icons
 import { BiUser } from "react-icons/bi";
-import { IoChevronBack } from "react-icons/io5";
 
 const MenuLogout = () => {
   const dispatch = useDispatch();
+
+  const [isSearching, setIsSearching] = useState(false);
+
+  const [searchResults, setSearchResults] = useState([]);
 
   return (
     <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
@@ -53,17 +56,27 @@ const MenuLogout = () => {
           </Link>
         </div>
         {/* Search inputs */}
-        <SearchStartInput />
+        <SearchStartInput
+          setSearchResults={setSearchResults}
+          setIsSearching={setIsSearching}
+        />
         <SearchDestinationInput />
       </div>
       {/* Recent searches */}
       <div className="p-5 pt-[10px]">
         <div className="pb-[20px] relative">
-          <SearchResultsList />
-          {/* <p className="font-bold">Ostatnie wyszukiwania</p>
-          <RecentSearchItem />
-          <RecentSearchItem />
-          <RecentSearchItem /> */}
+          {/* {isSearching ? (
+            <SearchResultsList
+              searchResults={searchResults}
+              setIsSearching={setIsSearching}
+            />
+          ) : (
+            <RecentSearchResultsList />
+          )} */}
+          <SearchResultsList
+            searchResults={searchResults}
+            setIsSearching={setIsSearching}
+          />
         </div>
         <div className="flex justify-center w-full">
           <SearchButton />
