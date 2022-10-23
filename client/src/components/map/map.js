@@ -1,10 +1,11 @@
 // Leaflet
 import L from "leaflet";
-import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+import { MapContainer, TileLayer, ZoomControl, Marker } from "react-leaflet";
+import { useMap } from "react-leaflet/hooks";
 
 import { useSelector } from "react-redux";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 import RoutingMachine from "./routingMachine";
 
@@ -17,9 +18,12 @@ const Map = () => {
     "3TMAJftD9pk68IEFxYhkdN0eUhQt9bArNsXGr66oeo7wjs6UkERfY7zyep3quFZc";
 
   const coords = useSelector((state) => state.locationCoords);
-  console.log(coords);
+
+  const [centerCoords, setCenterCoords] = useState([52.23, 21.01]);
 
   const routingMachine = useRef();
+
+  console.log("reset");
 
   useEffect(() => {
     const points = [
@@ -27,16 +31,26 @@ const Map = () => {
       [coords.destLat, coords.destLng],
     ];
 
+    console.log("eff");
+
     if (routingMachine.current) {
+      console.log("waypoint");
       routingMachine.current.setWaypoints(points);
     }
+
+    if (coords.startLat != null && coords.startLng != null) {
+      setCenterCoords([coords.startLat, coords.startLng]);
+    }
   }, [coords, routingMachine]);
+
+  console.log(centerCoords);
 
   return (
     <section className="absolute z-0 h-screen w-screen">
       <MapContainer
+        key={JSON.stringify(centerCoords)}
         className="h-full w-full"
-        center={[52.23, 21.01]}
+        center={centerCoords}
         zoom={14}
         zoomControl={false}
         scrollWheelZoom={true}

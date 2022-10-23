@@ -46,11 +46,8 @@ const SearchResultsList = (props) => {
   let filtered2SearchResults = [];
   let searchResultsAddresses = [];
 
-  console.log("FILTR");
-  console.log(searchResultsAddresses);
   for (let i = 0; i < filteredSearchResults.length; i++) {
     if (!searchResultsAddresses.includes(filteredSearchResults[i].address)) {
-      console.log("hm");
       filtered2SearchResults.push(filteredSearchResults[i]);
     }
 
