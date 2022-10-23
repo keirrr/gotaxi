@@ -7,8 +7,10 @@ import "leaflet-routing-machine";
 import "./style.css";
 
 const CreateRoutingMachineLayer = (props) => {
+  const { coords } = props;
+
   const control = L.Routing.control({
-    waypoints: [],
+    waypoints: [[coords.startLat, coords.startLng]],
     lineOptions: {
       styles: [{ color: "#FACC15", opacity: 1, weight: 8 }],
     },
