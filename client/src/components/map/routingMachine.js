@@ -10,7 +10,10 @@ const CreateRoutingMachineLayer = (props) => {
   const { coords } = props;
 
   const control = L.Routing.control({
-    waypoints: [[coords.startLat, coords.startLng]],
+    waypoints: [
+      [coords.startLat, coords.startLng],
+      [coords.destLat, coords.destLng],
+    ],
     lineOptions: {
       styles: [{ color: "#FACC15", opacity: 1, weight: 8 }],
     },
@@ -18,8 +21,8 @@ const CreateRoutingMachineLayer = (props) => {
       const marker = L.marker(waypoint.latLng, {
         draggable: true,
         icon: L.icon({
-          iconUrl: "./imgs/marker.png",
-          iconSize: [48, 48],
+          iconUrl: "./imgs/markers/start-marker.png",
+          iconSize: [32, 32],
         }),
       });
       return marker;
