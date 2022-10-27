@@ -2,10 +2,10 @@ import L from "leaflet";
 
 import { useState } from "react";
 
-//Redux
+// Redux
 // useSelector is used for reading data
 // useDispatch is used for updating data
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeScreenTo } from "../../features/menuScreen";
 
 // Router
@@ -17,6 +17,7 @@ import SearchDestinationInput from "../inputs/SearchDestinationInput";
 import SearchButton from "../buttons/SearchButton";
 import SearchResultsList from "../map/results/SearchResultsList";
 import RecentSearchResultsList from "../map/results/RecentSearchResultsList";
+import SearchOrdersList from "../map/results/search-orders/SearchOrdersList";
 
 // Icons
 import { BiUser } from "react-icons/bi";
@@ -27,8 +28,6 @@ const MenuLogout = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchingType, setSearchingType] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
-  //console.log(searchResults);
 
   return (
     <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
@@ -87,6 +86,7 @@ const MenuLogout = () => {
             setIsSearching={setIsSearching}
             searchingType={searchingType}
           />
+          <SearchOrdersList />
         </div>
         <div className="flex justify-center w-full">
           <SearchButton />

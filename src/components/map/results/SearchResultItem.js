@@ -18,15 +18,12 @@ const SearchResultItem = (props) => {
   const { searchingType } = props;
 
   const chooseAddressHandler = () => {
+    const inputElem = document.getElementById(`${searchingType}-search-input`);
+    inputElem.value = address;
     if (searchingType === "start") {
-      const inputElem = document.getElementById("start-search-input");
-      inputElem.value = address;
       dispatch(setStartLat(lat));
       dispatch(setStartLng(lng));
-    }
-    if (searchingType === "dest") {
-      const inputElem = document.getElementById("dest-search-input");
-      inputElem.value = address;
+    } else if (searchingType === "dest") {
       dispatch(setDestLat(lat));
       dispatch(setDestLng(lng));
     }

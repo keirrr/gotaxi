@@ -3,6 +3,7 @@ import L from "leaflet";
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 
 import { useSelector } from "react-redux";
+import { useMap } from "react-leaflet/hooks";
 import { useRef, useEffect, useState } from "react";
 
 import RoutingMachine from "./routingMachine";
@@ -27,10 +28,11 @@ const Map = () => {
 
     if (routingMachine.current) {
       routingMachine.current.setWaypoints(points);
+      console.log(routingMachine);
     }
 
     if (coords.startLat != null && coords.startLng != null) {
-      setCenterCoords([coords.startLat, coords.startLng]);
+      setCenterCoords(points[0]);
     }
   }, [coords, routingMachine]);
 
