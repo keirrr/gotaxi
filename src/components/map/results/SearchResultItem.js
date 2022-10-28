@@ -6,7 +6,7 @@ import {
   setStartLng,
   setDestLat,
   setDestLng,
-} from "../../../store/locationCoordsSlice";
+} from "../../../store/locationInfoSlice";
 
 import { IoLocationSharp } from "react-icons/io5";
 

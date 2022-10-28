@@ -16,7 +16,7 @@ const Map = () => {
   const accessToken =
     "3TMAJftD9pk68IEFxYhkdN0eUhQt9bArNsXGr66oeo7wjs6UkERfY7zyep3quFZc";
 
-  const coords = useSelector((state) => state.locationCoords);
+  const coords = useSelector((state) => state.locationInfo);
   const [centerCoords, setCenterCoords] = useState([52.23, 21.01]);
   const routingMachine = useRef();
 
