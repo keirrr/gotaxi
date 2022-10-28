@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const locationCoordsSlice = createSlice({
-  name: "locationCoords",
+const locationInfoSlice = createSlice({
+  name: "locationInfo",
   initialState: {
     startLat: null,
     startLng: null,
     destLat: null,
     destLng: null,
+    totalDistance: 0,
+    totalTime: 0,
   },
   reducers: {
     setStartLat: (state, action) => {
@@ -21,10 +23,22 @@ const locationCoordsSlice = createSlice({
     setDestLng: (state, action) => {
       state.destLng = action.payload;
     },
+    setDistance: (state, action) => {
+      state.totalDistance = action.payload;
+    },
+    setTime: (state, action) => {
+      state.totalTime = action.payload;
+    },
   },
 });
 
-export const { setStartLat, setStartLng, setDestLat, setDestLng } =
-  locationCoordsSlice.actions;
+export const {
+  setStartLat,
+  setStartLng,
+  setDestLat,
+  setDestLng,
+  setDistance,
+  setTime,
+} = locationInfoSlice.actions;
 
-export default locationCoordsSlice.reducer;
+export default locationInfoSlice.reducer;

@@ -3,8 +3,6 @@ import L from "leaflet";
 import { useState } from "react";
 
 // Redux
-// useSelector is used for reading data
-// useDispatch is used for updating data
 import { useDispatch, useSelector } from "react-redux";
 import { changeScreenTo } from "../../features/menuScreen";
 
