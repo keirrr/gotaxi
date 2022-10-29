@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import SearchResultItem from "./SearchResultItem";
 
 import ReactLoading from "react-loading";
@@ -43,6 +45,7 @@ const SearchResultsList = (props) => {
   });
 
   // Filter locations with duplicated name
+
   let filtered2SearchResults = [];
   let searchResultsAddresses = [];
 
@@ -59,18 +62,20 @@ const SearchResultsList = (props) => {
   return (
     <div
       className={`${
-        filtered2SearchResults == null && "flex items-start justify-center"
-      } h-[230px] mb-[10px] overflow-y-scroll scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full`}
+        filtered2SearchResults.length === 0 && "flex items-start justify-center"
+      } ${
+        filtered2SearchResults.length === 0 ? "h-auto" : "h-[250px]"
+      } overflow-y-scroll scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full`}
     >
-      {filtered2SearchResults != null ? (
+      {filtered2SearchResults.length > 0 &&
         filtered2SearchResults.map((result) => (
           <SearchResultItem
             key={result.place_id}
             result={result}
             searchingType={type}
           />
-        ))
-      ) : (
+        ))}
+      {filtered2SearchResults.length === 0 && (
         <ReactLoading type="bubbles" color="#9CA3AF" />
       )}
     </div>

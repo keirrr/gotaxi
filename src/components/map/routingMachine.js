@@ -5,7 +5,11 @@ import "leaflet-routing-machine";
 
 // Redux
 import { useDispatch } from "react-redux";
-import { setDistance, setTime } from "../../store/locationInfoSlice";
+import {
+  setDistance,
+  setTime,
+  setRouteFound,
+} from "../../store/locationInfoSlice";
 
 // CSS
 import "./style.css";
@@ -46,6 +50,7 @@ const CreateRoutingMachineLayer = (props) => {
 
     dispatch(setDistance(totalDistance));
     dispatch(setTime(totalTime));
+    dispatch(setRouteFound(true));
   });
 
   return control;

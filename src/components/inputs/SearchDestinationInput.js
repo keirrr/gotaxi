@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import { useDispatch } from "react-redux";
+import { setSearchingTrue } from "../../store/searchingSlice";
+
 import axios from "axios";
 
 import { BiCurrentLocation } from "react-icons/bi";
@@ -9,6 +12,8 @@ const SearchDestinationInput = ({
   setIsSearching,
   setSearchingType,
 }) => {
+  const dispatch = useDispatch();
+
   const [isFocused, setIsFocused] = useState(false);
   const [locationName, setLocationName] = useState("");
   const [timer, setTimer] = useState(null);
@@ -72,12 +77,11 @@ const SearchDestinationInput = ({
         autoComplete="off"
         onFocus={() => {
           setIsFocused(true);
-          setIsSearching(true);
+          dispatch(setSearchingTrue());
           setSearchingType("dest");
         }}
         onBlur={() => {
           setIsFocused(false);
-          setIsSearching(false);
         }}
         onChange={inputChanged}
       />

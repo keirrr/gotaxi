@@ -5,6 +5,7 @@ import { useState } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { changeScreenTo } from "../../features/menuScreen";
+import { setRouteFound } from "../../store/locationInfoSlice";
 
 // Router
 import { Outlet, Link } from "react-router-dom";
@@ -19,13 +20,16 @@ import SearchOrdersList from "../map/results/search-orders/SearchOrdersList";
 
 // Icons
 import { BiUser } from "react-icons/bi";
+import { IoChevronBack } from "react-icons/io5";
 
 const MenuLogout = () => {
   const dispatch = useDispatch();
 
-  const [isSearching, setIsSearching] = useState(false);
+  const { isSearching } = useSelector((state) => state.searching);
   const [searchingType, setSearchingType] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+
+  const { routeFound } = useSelector((state) => state.locationInfo);
 
   return (
     <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
@@ -34,7 +38,16 @@ const MenuLogout = () => {
         {/* Controls */}
         <div className="flex justify-between w-full">
           {/* Back icon */}
-          <div className="p-1 w-[24px] h-[24px]"></div>
+          {routeFound ? (
+            <button
+              onClick={() => dispatch(setRouteFound(false))}
+              className="relative p-1 flex items-center w-[24px] h-[24px]"
+            >
+              <IoChevronBack color="#111827" className="w-[24px] h-[24px]" />
+            </button>
+          ) : (
+            <div className="p-1 w-[24px] h-[24px]"></div>
+          )}
           {/* Logo */}
           <div className="flex items-center">
             <img
@@ -60,35 +73,29 @@ const MenuLogout = () => {
         <SearchStartInput
           setSearchResults={setSearchResults}
           setSearchingType={setSearchingType}
-          setIsSearching={setIsSearching}
         />
         <SearchDestinationInput
           setSearchResults={setSearchResults}
           setSearchingType={setSearchingType}
-          setIsSearching={setIsSearching}
         />
       </div>
       {/* Recent searches */}
       <div className="p-5 pt-[10px]">
-        <div className="pb-[20px] relative">
-          {/* {isSearching ? (
+        <div className="relative">
+          {isSearching ? (
             <SearchResultsList
               searchResults={searchResults}
-              setIsSearching={setIsSearching}
+              searchingType={searchingType}
             />
           ) : (
-            <RecentSearchResultsList />
-          )} */}
-          <SearchResultsList
-            searchResults={searchResults}
-            setIsSearching={setIsSearching}
-            searchingType={searchingType}
-          />
-          <SearchOrdersList />
+            <>
+              {routeFound ? <SearchOrdersList /> : <RecentSearchResultsList />}
+            </>
+          )}
         </div>
-        <div className="flex justify-center w-full">
+        {/* <div className="flex justify-center w-full">
           <SearchButton />
-        </div>
+        </div> */}
       </div>
       <Outlet />
     </section>

@@ -9,6 +9,7 @@ const locationInfoSlice = createSlice({
     destLng: null,
     totalDistance: 0,
     totalTime: 0,
+    routeFound: false,
   },
   reducers: {
     setStartLat: (state, action) => {
@@ -29,6 +30,9 @@ const locationInfoSlice = createSlice({
     setTime: (state, action) => {
       state.totalTime = action.payload;
     },
+    setRouteFound: (state, action) => {
+      state.routeFound = action.payload;
+    },
   },
 });
 
@@ -39,6 +43,7 @@ export const {
   setDestLng,
   setDistance,
   setTime,
+  setRouteFound,
 } = locationInfoSlice.actions;
 
 export default locationInfoSlice.reducer;
