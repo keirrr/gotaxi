@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 
+import { useDispatch } from "react-redux";
+import { setSearchingTrue } from "../../store/searchingSlice";
+
 import axios from "axios";
 
 import { BiCurrentLocation } from "react-icons/bi";
@@ -12,6 +15,8 @@ const SearchStartInput = ({
   const [isFocused, setIsFocused] = useState(false);
   const [locationName, setLocationName] = useState("");
   const [timer, setTimer] = useState(null);
+
+  const dispatch = useDispatch();
 
   const getCurrentPosition = async (props) => {
     const success = (position) => {
@@ -73,12 +78,11 @@ const SearchStartInput = ({
           autoComplete="off"
           onFocus={() => {
             setIsFocused(true);
-            setIsSearching(true);
             setSearchingType("start");
+            dispatch(setSearchingTrue());
           }}
           onBlur={() => {
             setIsFocused(false);
-            setIsSearching(false);
           }}
           onChange={inputChanged}
         />

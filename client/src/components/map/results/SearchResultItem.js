@@ -7,6 +7,7 @@ import {
   setDestLat,
   setDestLng,
 } from "../../../store/locationInfoSlice";
+import { setSearchingFalse } from "../../../store/searchingSlice";
 
 import { IoLocationSharp } from "react-icons/io5";
 
@@ -27,6 +28,7 @@ const SearchResultItem = (props) => {
       dispatch(setDestLat(lat));
       dispatch(setDestLng(lng));
     }
+    dispatch(setSearchingFalse());
   };
 
   return (

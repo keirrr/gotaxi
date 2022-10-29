@@ -2,7 +2,9 @@
 import L from "leaflet";
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchingFalse } from "../../store/searchingSlice";
+
 import { useMap } from "react-leaflet/hooks";
 import { useRef, useEffect, useState } from "react";
 
@@ -13,6 +15,8 @@ import "leaflet/dist/leaflet.css";
 import "./style.css";
 
 const Map = () => {
+  const dispatch = useDispatch();
+
   const accessToken =
     "3TMAJftD9pk68IEFxYhkdN0eUhQt9bArNsXGr66oeo7wjs6UkERfY7zyep3quFZc";
 
@@ -37,7 +41,10 @@ const Map = () => {
   }, [coords, routingMachine]);
 
   return (
-    <section className="absolute z-0 h-screen w-screen">
+    <section
+      className="absolute z-0 h-screen w-screen"
+      onClick={() => dispatch(setSearchingFalse())}
+    >
       <MapContainer
         key={JSON.stringify(centerCoords)}
         className="h-full w-full"
