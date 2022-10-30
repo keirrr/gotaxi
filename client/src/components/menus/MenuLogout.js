@@ -5,14 +5,19 @@ import { useState } from "react";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { changeScreenTo } from "../../features/menuScreen";
-import { setRouteFound } from "../../store/locationInfoSlice";
+import {
+  setStartLat,
+  setStartLng,
+  setDestLat,
+  setDestLng,
+  setRouteFound,
+} from "../../store/locationInfoSlice";
 
 // Router
 import { Outlet, Link } from "react-router-dom";
 
 // Components
-import SearchStartInput from "../inputs/SearchStartInput";
-import SearchDestinationInput from "../inputs/SearchDestinationInput";
+import SearchLocationInput from "../inputs/SearchLocationInput";
 import SearchButton from "../buttons/SearchButton";
 import SearchResultsList from "../map/results/SearchResultsList";
 import RecentSearchResultsList from "../map/results/RecentSearchResultsList";
@@ -20,16 +25,28 @@ import SearchOrdersList from "../map/results/search-orders/SearchOrdersList";
 
 // Icons
 import { BiUser } from "react-icons/bi";
-import { IoChevronBack } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 
 const MenuLogout = () => {
   const dispatch = useDispatch();
 
-  const { isSearching } = useSelector((state) => state.searching);
-  const [searchingType, setSearchingType] = useState("");
+  const { isSearching, searchingType } = useSelector(
+    (state) => state.searching
+  );
   const [searchResults, setSearchResults] = useState([]);
 
   const { routeFound } = useSelector((state) => state.locationInfo);
+
+  const resetRoute = () => {
+    dispatch(setStartLat(null));
+    dispatch(setStartLng(null));
+    dispatch(setDestLat(null));
+    dispatch(setDestLng(null));
+    dispatch(setRouteFound(false));
+    setSearchResults([]);
+    document.getElementById("start-search-input").value = "";
+    document.getElementById("dest-search-input").value = "";
+  };
 
   return (
     <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 bg-white drop-shadow rounded-[20px]">
@@ -40,13 +57,13 @@ const MenuLogout = () => {
           {/* Back icon */}
           {routeFound ? (
             <button
-              onClick={() => dispatch(setRouteFound(false))}
-              className="relative p-1 flex items-center w-[24px] h-[24px]"
+              onClick={resetRoute}
+              className="relative p-1 flex items-center w-[32px] h-[32px]"
             >
-              <IoChevronBack color="#111827" className="w-[24px] h-[24px]" />
+              <IoClose color="#111827" className="w-full h-full" />
             </button>
           ) : (
-            <div className="p-1 w-[24px] h-[24px]"></div>
+            <div className="p-1 w-[32px] h-[32px]"></div>
           )}
           {/* Logo */}
           <div className="flex items-center">
@@ -70,13 +87,13 @@ const MenuLogout = () => {
           </Link>
         </div>
         {/* Search inputs */}
-        <SearchStartInput
+        <SearchLocationInput
           setSearchResults={setSearchResults}
-          setSearchingType={setSearchingType}
+          inputSearchingType="start"
         />
-        <SearchDestinationInput
+        <SearchLocationInput
           setSearchResults={setSearchResults}
-          setSearchingType={setSearchingType}
+          inputSearchingType="dest"
         />
       </div>
       {/* Recent searches */}
