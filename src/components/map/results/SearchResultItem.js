@@ -1,6 +1,6 @@
 import "leaflet-routing-machine";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setStartLat,
   setStartLng,
@@ -11,8 +11,12 @@ import { setSearchingFalse } from "../../../store/searchingSlice";
 
 import { IoLocationSharp } from "react-icons/io5";
 
-const SearchResultItem = (props) => {
+const SearchResultItem = (props, { setSearchResults }) => {
   const dispatch = useDispatch();
+
+  const { startLat, startLng, destLat, destLng } = useSelector(
+    (state) => state.locationInfo
+  );
 
   const { address, lat, lng } = props.result;
 
@@ -20,13 +24,25 @@ const SearchResultItem = (props) => {
 
   const chooseAddressHandler = () => {
     const inputElem = document.getElementById(`${searchingType}-search-input`);
+    let inputElemToReset;
+    if (searchingType === "start") {
+      inputElemToReset = document.getElementById("dest-search-input");
+    } else {
+      inputElemToReset = document.getElementById("start-search-input");
+    }
     inputElem.value = address;
     if (searchingType === "start") {
       dispatch(setStartLat(lat));
       dispatch(setStartLng(lng));
+      if (destLat == null && destLng == null) {
+        inputElemToReset.value = "";
+      }
     } else if (searchingType === "dest") {
       dispatch(setDestLat(lat));
       dispatch(setDestLng(lng));
+      if (startLat == null && startLng == null) {
+        inputElemToReset.value = "";
+      }
     }
     dispatch(setSearchingFalse());
   };

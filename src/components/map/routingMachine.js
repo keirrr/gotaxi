@@ -9,13 +9,16 @@ import {
   setDistance,
   setTime,
   setRouteFound,
+  setStartLat,
+  setStartLng,
+  setDestLat,
+  setDestLng,
 } from "../../store/locationInfoSlice";
 
 // CSS
 import "./style.css";
 
-const CreateRoutingMachineLayer = (props) => {
-  const { coords } = props;
+const CreateRoutingMachineLayer = ({ coords }) => {
   const dispatch = useDispatch();
 
   const control = L.Routing.control({
@@ -34,6 +37,40 @@ const CreateRoutingMachineLayer = (props) => {
           iconSize: [32, 32],
         }),
       });
+
+      let markerType;
+
+      // Decide what is type of marker
+      marker.on("dragstart", function (e) {
+        const oldCoords = marker.getLatLng();
+        const { startLat, startLng, destLat, destLng } = coords;
+        console.log("Compare: ", oldCoords.lat, Number(startLat));
+        if (
+          oldCoords.lat === Number(startLat) &&
+          oldCoords.lng === Number(startLng)
+        ) {
+          markerType = "start";
+        } else if (
+          oldCoords.lat === Number(destLat) &&
+          oldCoords.lng === Number(destLng)
+        ) {
+          markerType = "dest";
+        }
+      });
+
+      marker.on("dragend", function (e) {
+        const newCoords = marker.getLatLng();
+        console.log("New: ", newCoords);
+        if (markerType === "start") {
+          dispatch(setStartLat(newCoords.lat));
+          dispatch(setStartLng(newCoords.lng));
+        } else if (markerType === "dest") {
+          dispatch(setDestLat(newCoords.lat));
+          dispatch(setDestLng(newCoords.lng));
+        }
+        markerType = "";
+      });
+
       return marker;
     },
     addWaypoints: false,

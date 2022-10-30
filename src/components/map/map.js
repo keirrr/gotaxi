@@ -16,13 +16,13 @@ import "./style.css";
 
 const Map = () => {
   const dispatch = useDispatch();
-
-  const accessToken =
-    "3TMAJftD9pk68IEFxYhkdN0eUhQt9bArNsXGr66oeo7wjs6UkERfY7zyep3quFZc";
+  const routingMachine = useRef();
 
   const coords = useSelector((state) => state.locationInfo);
   const [centerCoords, setCenterCoords] = useState([52.23, 21.01]);
-  const routingMachine = useRef();
+
+  const accessToken =
+    "3TMAJftD9pk68IEFxYhkdN0eUhQt9bArNsXGr66oeo7wjs6UkERfY7zyep3quFZc";
 
   useEffect(() => {
     const points = [
@@ -30,13 +30,15 @@ const Map = () => {
       [coords.destLat, coords.destLng],
     ];
 
-    if (routingMachine.current) {
-      routingMachine.current.setWaypoints(points);
-      console.log(routingMachine);
-    }
-
     if (coords.startLat != null && coords.startLng != null) {
       setCenterCoords(points[0]);
+    }
+    if (coords.destLat != null && coords.destLng != null) {
+      setCenterCoords(points[1]);
+    }
+
+    if (routingMachine.current) {
+      routingMachine.current.setWaypoints(points);
     }
   }, [coords, routingMachine]);
 

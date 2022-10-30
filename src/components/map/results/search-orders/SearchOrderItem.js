@@ -28,7 +28,6 @@ const SearchOrderItem = (props) => {
       break;
 
     case "walk":
-      timeMultipler = 4;
       vechicleImage = "walk";
       break;
 
@@ -36,10 +35,26 @@ const SearchOrderItem = (props) => {
       break;
   }
 
-  convertedTime = moment()
-    .add(totalTime * timeMultipler, "seconds")
-    .add(4, "minutes")
-    .format("HH:mm");
+  if (type === "walk") {
+    convertedTime = moment().add(totalDistance * 10, "minutes");
+  } else {
+    convertedTime = moment()
+      .add(totalTime * timeMultipler, "seconds")
+      .add(4, "minutes");
+  }
+
+  const todayDate = moment();
+  const daysDiff = convertedTime.diff(todayDate, "days", true);
+  console.log(daysDiff);
+
+  let timeString;
+  if (daysDiff < 1) {
+    timeString = `Na miejscu o ${convertedTime.format("HH:mm")}`;
+  } else if (daysDiff <= 1) {
+    timeString = `Na miejscu już jutro`;
+  } else if (daysDiff > 1) {
+    timeString = `Na miejscu za ${Math.ceil(daysDiff)} dni`;
+  }
 
   if (type === "walk") {
     price = "FREE";
@@ -59,7 +74,7 @@ const SearchOrderItem = (props) => {
         </div>
         <div>
           <p className="font-bold text-[18px]">Taxi{name}</p>
-          <p className="text-[16px]">Na miejscu o {convertedTime}</p>
+          <p className="text-[16px]">{timeString}</p>
         </div>
       </div>
       <div className="mr-[10px]">
