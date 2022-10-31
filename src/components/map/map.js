@@ -5,7 +5,6 @@ import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchingFalse } from "../../store/searchingSlice";
 
-import { useMap } from "react-leaflet/hooks";
 import { useRef, useEffect, useState } from "react";
 
 import RoutingMachine from "./routingMachine";

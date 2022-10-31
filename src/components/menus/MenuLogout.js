@@ -1,6 +1,6 @@
 import L from "leaflet";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import {
   setDestLng,
   setRouteFound,
 } from "../../store/locationInfoSlice";
+import { setSearchingFalse } from "../../store/searchingSlice";
 
 // Router
 import { Outlet, Link } from "react-router-dom";
@@ -35,7 +36,15 @@ const MenuLogout = () => {
   );
   const [searchResults, setSearchResults] = useState([]);
 
+  const { startLat, startLng, destLat, destLng } = useSelector(
+    (state) => state.locationInfo
+  );
   const { routeFound } = useSelector((state) => state.locationInfo);
+
+  const [isStartSelected, setIsStartSelected] = useState(false);
+  const [isDestSelected, setIsDestSelected] = useState(false);
+
+  const onEnterPress = (e) => {};
 
   const resetRoute = () => {
     dispatch(setStartLat(null));
@@ -88,10 +97,12 @@ const MenuLogout = () => {
         </div>
         {/* Search inputs */}
         <SearchLocationInput
+          searchResults={searchResults}
           setSearchResults={setSearchResults}
           inputSearchingType="start"
         />
         <SearchLocationInput
+          searchResults={searchResults}
           setSearchResults={setSearchResults}
           inputSearchingType="dest"
         />
