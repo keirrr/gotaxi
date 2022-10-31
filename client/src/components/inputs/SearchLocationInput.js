@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSearchingTrue, setSearchingType } from "../../store/searchingSlice";
 import {
   setStartLat,
@@ -8,12 +8,14 @@ import {
   setDestLat,
   setDestLng,
 } from "../../store/locationInfoSlice.js";
+import { setSearchingFalse } from "../../store/searchingSlice";
 
 import axios from "axios";
 
 import { BiCurrentLocation } from "react-icons/bi";
 
 const SearchLocationInput = ({
+  searchResults,
   setSearchResults,
   setIsSearching,
   inputSearchingType,
@@ -22,6 +24,13 @@ const SearchLocationInput = ({
   const [timer, setTimer] = useState(null);
 
   const dispatch = useDispatch();
+
+  const { isSearching, searchingType } = useSelector(
+    (state) => state.searching
+  );
+  const { startLat, startLng, destLat, destLng } = useSelector(
+    (state) => state.locationInfo
+  );
 
   const getCurrentPosition = async (props) => {
     const success = (position) => {
@@ -90,6 +99,63 @@ const SearchLocationInput = ({
     setTimer(newTimer);
   };
 
+  // Pick location on enter
+  const onEnterPress = (e) => {
+    if (isSearching && searchResults.data) {
+      const searchInputElem = document.getElementById(
+        `${searchingType}-search-input`
+      );
+
+      if (e.key === "Enter") {
+        const firstLocationInfo = searchResults.data[0];
+
+        let inputElemToReset;
+        if (searchingType === "start") {
+          inputElemToReset = document.getElementById("dest-search-input");
+        } else {
+          inputElemToReset = document.getElementById("start-search-input");
+        }
+
+        // Set input value
+        const { tourism, city, house_number, road } = firstLocationInfo.address;
+
+        let address;
+
+        if (house_number == null && road == null) {
+          address = `${city}`;
+        } else if (house_number == null) {
+          address = `${road}, ${city}`;
+        } else if (house_number == null && tourism == null) {
+          address = `${road}, ${city}`;
+        } else if (house_number == null && tourism != null) {
+          address = `${tourism}, ${road}, ${city}`;
+        } else if (house_number != null && tourism == null) {
+          address = `${road} ${house_number}, ${city}`;
+        } else if (house_number != null && tourism != null) {
+          address = `${tourism}, ${road} ${house_number}, ${city}`;
+        }
+
+        searchInputElem.value = address;
+
+        const { lat, lon } = firstLocationInfo;
+        if (searchingType === "start") {
+          dispatch(setStartLat(lat));
+          dispatch(setStartLng(lon));
+          if (destLat == null && destLng == null) {
+            inputElemToReset.value = "";
+          }
+        } else if (searchingType === "dest") {
+          dispatch(setDestLat(lat));
+          dispatch(setDestLng(lon));
+          if (startLat == null && startLng == null) {
+            inputElemToReset.value = "";
+          }
+        }
+        dispatch(setSearchingFalse());
+      }
+    }
+  };
+
   return (
     <div className="relative">
       <div className="flex justify-between relative z-10 h-10 w-full mt-[10px] bg-gray-200 rounded-[10px]">
@@ -121,6 +187,7 @@ const SearchLocationInput = ({
             setIsFocused(false);
           }}
           onChange={inputChanged}
+          onKeyPress={onEnterPress}
         />
         <button
           onClick={getCurrentPosition}

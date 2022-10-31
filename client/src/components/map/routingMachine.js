@@ -31,45 +31,45 @@ const CreateRoutingMachineLayer = ({ coords }) => {
     },
     createMarker: function (i: number, waypoint: any, n: number) {
       const marker = L.marker(waypoint.latLng, {
-        draggable: true,
+        draggable: false,
         icon: L.icon({
           iconUrl: "./imgs/markers/start-marker.png",
           iconSize: [32, 32],
         }),
       });
 
-      let markerType;
+      // let markerType;
 
-      // Decide what is type of marker
-      marker.on("dragstart", function (e) {
-        const oldCoords = marker.getLatLng();
-        const { startLat, startLng, destLat, destLng } = coords;
-        console.log("Compare: ", oldCoords.lat, Number(startLat));
-        if (
-          oldCoords.lat === Number(startLat) &&
-          oldCoords.lng === Number(startLng)
-        ) {
-          markerType = "start";
-        } else if (
-          oldCoords.lat === Number(destLat) &&
-          oldCoords.lng === Number(destLng)
-        ) {
-          markerType = "dest";
-        }
-      });
+      // // Decide what is type of marker
+      // marker.on("dragstart", function (e) {
+      //   const oldCoords = marker.getLatLng();
+      //   const { startLat, startLng, destLat, destLng } = coords;
+      //   console.log("Compare: ", oldCoords.lat, Number(startLat));
+      //   if (
+      //     oldCoords.lat === Number(startLat) &&
+      //     oldCoords.lng === Number(startLng)
+      //   ) {
+      //     markerType = "start";
+      //   } else if (
+      //     oldCoords.lat === Number(destLat) &&
+      //     oldCoords.lng === Number(destLng)
+      //   ) {
+      //     markerType = "dest";
+      //   }
+      // });
 
-      marker.on("dragend", function (e) {
-        const newCoords = marker.getLatLng();
-        console.log("New: ", newCoords);
-        if (markerType === "start") {
-          dispatch(setStartLat(newCoords.lat));
-          dispatch(setStartLng(newCoords.lng));
-        } else if (markerType === "dest") {
-          dispatch(setDestLat(newCoords.lat));
-          dispatch(setDestLng(newCoords.lng));
-        }
-        markerType = "";
-      });
+      // marker.on("dragend", function (e) {
+      //   const newCoords = marker.getLatLng();
+      //   console.log("New: ", newCoords);
+      //   if (markerType === "start") {
+      //     dispatch(setStartLat(newCoords.lat));
+      //     dispatch(setStartLng(newCoords.lng));
+      //   } else if (markerType === "dest") {
+      //     dispatch(setDestLat(newCoords.lat));
+      //     dispatch(setDestLng(newCoords.lng));
+      //   }
+      //   markerType = "";
+      // });
 
       return marker;
     },

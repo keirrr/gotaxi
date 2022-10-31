@@ -45,7 +45,6 @@ const SearchOrderItem = (props) => {
 
   const todayDate = moment();
   const daysDiff = convertedTime.diff(todayDate, "days", true);
-  console.log(daysDiff);
 
   let timeString;
   if (daysDiff < 1) {
