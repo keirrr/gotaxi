@@ -13,6 +13,7 @@ import { setSearchingFalse } from "../../store/searchingSlice";
 import axios from "axios";
 
 import { BiCurrentLocation } from "react-icons/bi";
+import { IoRepeat } from "react-icons/io5";
 
 const SearchLocationInput = ({
   searchResults,
@@ -31,6 +32,9 @@ const SearchLocationInput = ({
   const { startLat, startLng, destLat, destLng } = useSelector(
     (state) => state.locationInfo
   );
+  const { routeFound } = useSelector((state) => state.locationInfo);
+
+  const [hideCurrentLocation, setHideCurrentLocation] = useState(true);
 
   const getCurrentPosition = async (props) => {
     const success = (position) => {
@@ -99,6 +103,19 @@ const SearchLocationInput = ({
     setTimer(newTimer);
   };
 
+  const swapDates = () => {
+    let startInputValue = document.getElementById(`start-search-input`).value;
+    let destInputValue = document.getElementById(`dest-search-input`).value;
+
+    document.getElementById(`start-search-input`).value = destInputValue;
+    document.getElementById(`dest-search-input`).value = startInputValue;
+
+    dispatch(setStartLat(destLat));
+    dispatch(setStartLng(destLng));
+    dispatch(setDestLat(startLat));
+    dispatch(setDestLng(startLng));
+  };
+
   // Pick location on enter
   const onEnterPress = (e) => {
     if (isSearching && searchResults.data) {
@@ -156,6 +173,17 @@ const SearchLocationInput = ({
     }
   };
 
+  // Disable current location button on blur
+  useEffect(() => {
+    if (!isFocused) {
+      setTimeout(() => {
+        setHideCurrentLocation(true);
+      }, 100);
+    } else {
+      setHideCurrentLocation(false);
+    }
+  }, [isFocused]);
+
   return (
     <div className="relative">
       <div className="flex justify-between relative z-10 h-10 w-full mt-[10px] bg-gray-200 rounded-[10px]">
@@ -179,9 +207,9 @@ const SearchLocationInput = ({
           className="absolute w-full h-full t-0 px-[40px] py-[5px] bg-gray-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-600"
           autoComplete="off"
           onFocus={() => {
-            setIsFocused(true);
             dispatch(setSearchingType(inputSearchingType));
             dispatch(setSearchingTrue());
+            setIsFocused(true);
           }}
           onBlur={() => {
             setIsFocused(false);
@@ -189,14 +217,43 @@ const SearchLocationInput = ({
           onChange={inputChanged}
           onKeyPress={onEnterPress}
         />
-        <button
-          onClick={getCurrentPosition}
-          className={`flex items-center mx-[10px] z-10 transition ${
-            isFocused ? "opacity-100" : "opacity-0"
-          }`}
+        <div
+          className={`flex row transition-all ${
+            isFocused && routeFound && inputSearchingType === "dest"
+              ? "w-[55px]"
+              : "w-[20px] mr-[10px]"
+          } delay-[50ms]`}
         >
-          <BiCurrentLocation color="#111827" className="w-[20px] h-[20px]" />
-        </button>
+          {inputSearchingType === "dest" && (
+            <>
+              {routeFound && (
+                <button
+                  onClick={swapDates}
+                  className={`flex items-center mr-[5px] z-10 opacity-100
+            `}
+                >
+                  <IoRepeat
+                    color="#111827"
+                    className="w-[20px] h-[20px] rotate-90"
+                  />
+                </button>
+              )}
+            </>
+          )}
+          <button
+            id="current-location"
+            onClick={getCurrentPosition}
+            className={`flex items-center z-10 transition-all opacity-0 ${
+              isFocused && "opacity-100 delay-[100ms]"
+            }`}
+            disabled={hideCurrentLocation}
+          >
+            <BiCurrentLocation
+              color="#111827"
+              className={`w-[20px] h-[20px]`}
+            />
+          </button>
+        </div>
       </div>
     </div>
   );

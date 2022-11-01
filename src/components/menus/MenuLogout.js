@@ -41,11 +41,6 @@ const MenuLogout = () => {
   );
   const { routeFound } = useSelector((state) => state.locationInfo);
 
-  const [isStartSelected, setIsStartSelected] = useState(false);
-  const [isDestSelected, setIsDestSelected] = useState(false);
-
-  const onEnterPress = (e) => {};
-
   const resetRoute = () => {
     dispatch(setStartLat(null));
     dispatch(setStartLng(null));
