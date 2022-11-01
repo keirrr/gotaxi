@@ -1,3 +1,4 @@
+import L, { map } from "leaflet";
 import "leaflet-routing-machine";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -44,7 +45,6 @@ const SearchResultItem = (props, { setSearchResults }) => {
         inputElemToReset.value = "";
       }
     }
-    dispatch(setSearchingFalse());
   };
 
   return (
