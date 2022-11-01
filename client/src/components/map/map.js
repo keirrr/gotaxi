@@ -48,6 +48,7 @@ const Map = () => {
     >
       <MapContainer
         key={JSON.stringify(centerCoords)}
+        id="map"
         className="h-full w-full"
         center={centerCoords}
         zoom={14}

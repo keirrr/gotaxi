@@ -3,8 +3,10 @@ import { useSelector } from "react-redux";
 
 import moment from "moment";
 
+import { IoMdPricetag } from "react-icons/io";
+
 const SearchOrderItem = (props) => {
-  const { type } = props;
+  const { type, isDiscountNow, discountValue } = props;
 
   const routeInfo = useSelector((state) => state.locationInfo);
   const { totalDistance, totalTime } = routeInfo;
@@ -55,10 +57,14 @@ const SearchOrderItem = (props) => {
     timeString = `Na miejscu za ${Math.ceil(daysDiff)} dni`;
   }
 
+  let discountedPrice;
   if (type === "walk") {
     price = "FREE";
   } else {
     price = (5 + priceMultipler * totalDistance).toFixed(2);
+    if (isDiscountNow) {
+      discountedPrice = (price * (discountValue / 100)).toFixed(2);
+    }
   }
 
   return (
@@ -77,9 +83,19 @@ const SearchOrderItem = (props) => {
         </div>
       </div>
       <div className="mr-[10px]">
-        <p className="font-bold text-[20px]">
-          {type === "walk" ? price : price + "zł"}
-        </p>
+        {isDiscountNow ? (
+          <div className="flex-col items-end">
+            <div className="flex items-center justify-center">
+              <IoMdPricetag color="#2EAA68" className="mr-[5px]" />
+              <p className="font-bold text-[20px]">{discountedPrice}</p>
+            </div>
+            <p className="line-through text-right">{price}</p>
+          </div>
+        ) : (
+          <p className="font-bold text-[20px]">
+            {type === "walk" ? price : price + "zł"}
+          </p>
+        )}
       </div>
     </div>
   );
