@@ -1,5 +1,7 @@
 // Redux
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setPrice } from "../../../../store/locationInfoSlice";
+import { setSelectedItem } from "../../../../store/orderInfoSlice";
 
 import moment from "moment";
 
@@ -9,8 +11,15 @@ const SearchOrderItem = (props) => {
   const { type, isDiscountNow, discountValue } = props;
 
   const routeInfo = useSelector((state) => state.locationInfo);
-  const { totalDistance, totalTime } = routeInfo;
+  const { selectedItem } = useSelector((state) => state.orderInfo);
 
+  const dispatch = useDispatch();
+
+  // Selected order item
+  const isItemSelected = selectedItem === type;
+
+  // Order price and distance info
+  const { totalDistance, totalTime } = routeInfo;
   let convertedTime, price;
 
   let timeMultipler = 1;
@@ -67,8 +76,22 @@ const SearchOrderItem = (props) => {
     }
   }
 
+  const chooseHandler = () => {
+    dispatch(setSelectedItem(type));
+    if (isDiscountNow) {
+      dispatch(setPrice(discountedPrice));
+    } else {
+      dispatch(setPrice(price));
+    }
+  };
+
   return (
-    <div className="flex justify-between items-center w-full h-[75px] mt-[5px] rounded-[10px] cursor-pointer hover:bg-gray-100">
+    <div
+      className={`flex justify-between items-center w-full h-[75px] mt-[5px] rounded-[10px] cursor-pointer ${
+        !isItemSelected && "hover:bg-gray-100"
+      }  ${isItemSelected && "bg-gray-200"}`}
+      onClick={chooseHandler}
+    >
       <div className="flex items-center h-full">
         <div className="flex items-center px-[15px] py-[10px] h-full w-[90px]">
           <img

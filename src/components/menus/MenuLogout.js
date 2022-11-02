@@ -116,9 +116,6 @@ const MenuLogout = () => {
             </>
           )}
         </div>
-        {/* <div className="flex justify-center w-full">
-          <SearchButton />
-        </div> */}
       </div>
       <Outlet />
     </section>

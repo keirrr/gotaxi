@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setStartLat,
   setStartLng,
+  setStartLocationName,
   setDestLat,
   setDestLng,
+  setDestLocationName,
 } from "../../../store/locationInfoSlice";
-import { setSearchingFalse } from "../../../store/searchingSlice";
 
 import { IoLocationSharp } from "react-icons/io5";
 
@@ -35,12 +36,14 @@ const SearchResultItem = (props, { setSearchResults }) => {
     if (searchingType === "start") {
       dispatch(setStartLat(lat));
       dispatch(setStartLng(lng));
+      dispatch(setStartLocationName(address));
       if (destLat == null && destLng == null) {
         inputElemToReset.value = "";
       }
     } else if (searchingType === "dest") {
       dispatch(setDestLat(lat));
       dispatch(setDestLng(lng));
+      dispatch(setDestLocationName(address));
       if (startLat == null && startLng == null) {
         inputElemToReset.value = "";
       }
