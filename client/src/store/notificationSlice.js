@@ -10,11 +10,9 @@ export const notificationSlice = createSlice({
   // Reducer is pure function that takes an action and prev state and returns new state
   reducers: {
     clearContent: (state) => {
-      console.log("clear");
       state.content = "";
     },
     setContent: (state, action) => {
-      console.log("change");
       state.content = action.payload;
     },
   },
