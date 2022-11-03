@@ -231,6 +231,7 @@ const SearchLocationInput = ({
                   onClick={swapDates}
                   className={`flex items-center mr-[5px] z-10 opacity-100
             `}
+                  tabIndex="-1"
                 >
                   <IoRepeat
                     color="#111827"
@@ -247,6 +248,7 @@ const SearchLocationInput = ({
               isFocused && "opacity-100 delay-[100ms]"
             }`}
             disabled={hideCurrentLocation}
+            tabIndex="-1"
           >
             <BiCurrentLocation
               color="#111827"

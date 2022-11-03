@@ -1,8 +1,6 @@
-import { useNavigate } from "react-router-dom";
-
 import { useState, useEffect } from "react";
 
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import SearchOrderItem from "./SearchOrderItem";
 import SearchOrderButton from "./SearchOrderButton";
@@ -12,19 +10,19 @@ import { IoMdPricetag } from "react-icons/io";
 const SearchOrdersList = () => {
   const navigate = useNavigate();
 
-  // If there is a discount
-  const isDiscountNow = Math.random() < 0.5;
+  const [isDiscountNow, setIsDiscountNow] = useState(false);
+  const [discountValue, setDiscountValue] = useState();
 
-  // Generate discount value
-  let discountValue;
-  if (isDiscountNow) {
-    const randNum = Math.random() * 30 + 40;
-    discountValue = Math.round(randNum / 10) * 10;
-  }
+  useEffect(() => {
+    // If there is a discount
+    setIsDiscountNow(Math.random() < 0.5);
 
-  const chooseHandler = () => {
-    navigate("/order/confirm");
-  };
+    // Generate discount value
+    if (isDiscountNow) {
+      const randNum = Math.random() * 30 + 40;
+      setDiscountValue(Math.round(randNum / 10) * 10);
+    }
+  }, [isDiscountNow]);
 
   return (
     <>
@@ -38,7 +36,7 @@ const SearchOrdersList = () => {
             </p>
           </div>
         )}
-        <form onSubmit={chooseHandler}>
+        <form>
           <SearchOrderItem
             type="regular"
             isDiscountNow={isDiscountNow}
