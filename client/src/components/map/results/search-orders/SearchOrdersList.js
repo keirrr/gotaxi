@@ -36,7 +36,7 @@ const SearchOrdersList = () => {
             </p>
           </div>
         )}
-        <form>
+        <form onSubmit={() => navigate("/order/confirm")}>
           <SearchOrderItem
             type="regular"
             isDiscountNow={isDiscountNow}
