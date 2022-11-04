@@ -40,7 +40,7 @@ const MenuOrderConfirm = () => {
             Cena
           </span>
           <span className="w-fit text-2xl font-bold leading-tight">
-            {price}zł
+            {price === "FREE" ? "FREE" : price + "zł"}
           </span>
         </div>
         <Button name="Potwierdź" />

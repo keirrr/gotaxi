@@ -6,6 +6,8 @@ const SearchOrderPathInfo = () => {
   const { startLocationName, destLocationName } = useSelector(
     (state) => state.locationInfo
   );
+
+  console.log(startLocationName, destLocationName);
   return (
     <div className="flex justify-between items-center w-full h-[60px] mt-[5px] bg-gray-200 rounded-[10px]">
       <div className="flex">
