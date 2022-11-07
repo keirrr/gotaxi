@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { setPrice } from "../../../../store/locationInfoSlice";
@@ -8,10 +10,13 @@ import moment from "moment";
 import { IoMdPricetag } from "react-icons/io";
 
 const SearchOrderItem = (props) => {
-  const { type, isDiscountNow, discountValue } = props;
+  const { type } = props;
 
   const routeInfo = useSelector((state) => state.locationInfo);
   const { selectedItem } = useSelector((state) => state.orderInfo);
+  const { isDiscountNow, discountValue } = useSelector(
+    (state) => state.orderInfo
+  );
 
   const dispatch = useDispatch();
 
@@ -76,6 +81,16 @@ const SearchOrderItem = (props) => {
     }
   }
 
+  useEffect(() => {
+    if (isItemSelected) {
+      if (isDiscountNow && type !== "walk") {
+        dispatch(setPrice(discountedPrice));
+      } else {
+        dispatch(setPrice(price));
+      }
+    }
+  });
+
   const chooseHandler = () => {
     dispatch(setSelectedItem(type));
     if (isDiscountNow) {
@@ -106,7 +121,7 @@ const SearchOrderItem = (props) => {
         </div>
       </div>
       <div className="mr-[10px]">
-        {isDiscountNow ? (
+        {isDiscountNow && type !== "walk" ? (
           <div className="flex-col items-end">
             <div className="flex items-center justify-center">
               <IoMdPricetag color="#2EAA68" className="mr-[5px]" />

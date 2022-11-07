@@ -10,6 +10,7 @@ import {
   setDestLng,
   setDestLocationName,
 } from "../../../store/locationInfoSlice";
+import { setSearchingFalse } from "../../../store/searchingSlice";
 
 import { IoLocationSharp } from "react-icons/io5";
 
@@ -48,12 +49,13 @@ const SearchResultItem = (props, { setSearchResults }) => {
         inputElemToReset.value = "";
       }
     }
+    dispatch(setSearchingFalse());
   };
 
   return (
     <div className="pr-[15px] cursor-pointer" onClick={chooseAddressHandler}>
       <div className="flex items-center w-full mt-[5px] bg-gray-200 rounded-[10px]">
-        <div className="p-[10px]">
+        <div className="p-[10px] py-[15px]">
           <IoLocationSharp color="#111827" className="w-[24px] h-[24px]" />
         </div>
         <p>{address}</p>

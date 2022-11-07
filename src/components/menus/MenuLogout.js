@@ -13,6 +13,11 @@ import {
   setRouteFound,
 } from "../../store/locationInfoSlice";
 import { setSearchingFalse } from "../../store/searchingSlice";
+import {
+  setSelectedItem,
+  setIsDiscountNow,
+  setDiscountValue,
+} from "../../store/orderInfoSlice";
 
 // Router
 import { Outlet, Link } from "react-router-dom";
@@ -47,6 +52,9 @@ const MenuLogout = () => {
     dispatch(setDestLat(null));
     dispatch(setDestLng(null));
     dispatch(setRouteFound(false));
+    dispatch(setSelectedItem("regular"));
+    dispatch(setIsDiscountNow(false));
+    dispatch(setDiscountValue(null));
     setSearchResults([]);
     document.getElementById("start-search-input").value = "";
     document.getElementById("dest-search-input").value = "";

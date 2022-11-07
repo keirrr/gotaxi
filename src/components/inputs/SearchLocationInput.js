@@ -5,8 +5,10 @@ import { setSearchingTrue, setSearchingType } from "../../store/searchingSlice";
 import {
   setStartLat,
   setStartLng,
+  setStartLocationName,
   setDestLat,
   setDestLng,
+  setDestLocationName,
 } from "../../store/locationInfoSlice.js";
 import { setSearchingFalse } from "../../store/searchingSlice";
 
@@ -158,17 +160,25 @@ const SearchLocationInput = ({
         if (searchingType === "start") {
           dispatch(setStartLat(lat));
           dispatch(setStartLng(lon));
+          dispatch(setStartLocationName(address));
           if (destLat == null && destLng == null) {
             inputElemToReset.value = "";
           }
         } else if (searchingType === "dest") {
           dispatch(setDestLat(lat));
           dispatch(setDestLng(lon));
+          dispatch(setDestLocationName(address));
           if (startLat == null && startLng == null) {
             inputElemToReset.value = "";
           }
         }
         dispatch(setSearchingFalse());
+
+        // Focus next input when input is start type
+        if (searchingType === "start") {
+          const destInput = document.getElementById("dest-search-input");
+          destInput.focus();
+        }
       }
     }
   };
