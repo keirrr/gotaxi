@@ -5,10 +5,10 @@ const locationInfoSlice = createSlice({
   initialState: {
     startLat: null,
     startLng: null,
-    startLocationName: "",
+    startLocationName: null,
     destLat: null,
     destLng: null,
-    destLocationName: "",
+    destLocationName: null,
     totalDistance: 0,
     totalTime: 0,
     price: null,

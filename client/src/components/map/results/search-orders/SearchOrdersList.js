@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setIsDiscountNow,
+  setDiscountValue,
+} from "../../../../store/orderInfoSlice";
+
 import SearchOrderItem from "./SearchOrderItem";
 import SearchOrderButton from "./SearchOrderButton";
 
@@ -9,20 +15,36 @@ import { IoMdPricetag } from "react-icons/io";
 
 const SearchOrdersList = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [isDiscountNow, setIsDiscountNow] = useState(false);
-  const [discountValue, setDiscountValue] = useState();
+  const { isDiscountNow, discountValue } = useSelector(
+    (state) => state.orderInfo
+  );
+
+  const { startLocationName, destLocationName } = useSelector(
+    (state) => state.locationInfo
+  );
 
   useEffect(() => {
-    // If there is a discount
-    setIsDiscountNow(Math.random() < 0.5);
-
     // Generate discount value
-    if (isDiscountNow) {
+    if (!isDiscountNow) {
+      dispatch(setIsDiscountNow(Math.random() < 0.5));
+
       const randNum = Math.random() * 30 + 40;
-      setDiscountValue(Math.round(randNum / 10) * 10);
+      dispatch(setDiscountValue(Math.round(randNum / 10) * 10));
     }
-  }, [isDiscountNow]);
+
+    // Fill input if location names assigned
+    if (startLocationName !== null && destLocationName !== null) {
+      document.getElementById(`start-search-input`).value = startLocationName;
+      document.getElementById(`dest-search-input`).value = destLocationName;
+    }
+  }, [destLocationName, dispatch, isDiscountNow, startLocationName]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    navigate("/order/confirm");
+  };
 
   return (
     <>
@@ -36,22 +58,10 @@ const SearchOrdersList = () => {
             </p>
           </div>
         )}
-        <form onSubmit={() => navigate("/order/confirm")}>
-          <SearchOrderItem
-            type="regular"
-            isDiscountNow={isDiscountNow}
-            discountValue={discountValue}
-          />
-          <SearchOrderItem
-            type="comfort"
-            isDiscountNow={isDiscountNow}
-            discountValue={discountValue}
-          />
-          <SearchOrderItem
-            type="express"
-            isDiscountNow={isDiscountNow}
-            discountValue={discountValue}
-          />
+        <form onSubmit={submitHandler}>
+          <SearchOrderItem type="regular" />
+          <SearchOrderItem type="comfort" />
+          <SearchOrderItem type="express" />
           <SearchOrderItem type="walk" />
           <SearchOrderButton />
         </form>

@@ -12,7 +12,7 @@ const SearchResultsList = (props) => {
 
   if (searchResults.data) {
     searchResults.data.forEach((result) => {
-      const { tourism, city, house_number, road } = result.address;
+      const { tourism, city, house_number, road, county } = result.address;
 
       let address;
 

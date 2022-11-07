@@ -33,7 +33,7 @@ const CreateRoutingMachineLayer = ({ coords }) => {
       const startMarker = L.marker(waypoint.latLng, {
         draggable: false,
         icon: L.icon({
-          iconUrl: "./imgs/markers/start-marker.png",
+          iconUrl: "./imgs/markers/black-marker.png",
           iconSize: [32, 32],
         }),
       });
