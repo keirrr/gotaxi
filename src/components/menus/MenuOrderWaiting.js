@@ -23,7 +23,35 @@ const MenuOrderWaiting = () => {
           Twój kierowca jest w drodze
         </span>
       </div>
-      <form></form>
+      <div className="mt-4">
+        <div className="flex justify-center items-end relative">
+          <div className="relative left-8 bottom-8 w-20">
+            <img
+              className="w-20 -scale-x-100"
+              src="/imgs/svgs/taxi.svg"
+              alt="User avatar"
+            />
+          </div>
+          <div className="flex flex-col items-center relative z-10">
+            <img
+              className="h-24"
+              src="/imgs/user-image.png"
+              alt="User avatar"
+            />
+            <div className="relative bottom-3 bg-gray-200 rounded-full w-fit">
+              <p className="px-2 py-1 font-bold text-center">Bartek</p>
+            </div>
+          </div>
+          <div className="flex flex-col justify-center items-center relative h-16 w-16 mr-4 -left-4 bottom-8 bg-yellow-400 rounded-full">
+            <p className="text-3xl font-bold leading-4">4</p>
+            <p className="leading-4 mt-1">min</p>
+          </div>
+        </div>
+        <div>
+          <p className="text-3xl font-bold text-center">SK 168SK</p>
+          <p className="text-xl text-center">Honda Civic</p>
+        </div>
+      </div>
     </section>
   );
 };
