@@ -1,7 +1,8 @@
 // Router
 import { Link, useNavigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setContent } from "../../store/notificationSlice";
 
 import SearchOrderPathInfo from "../map/results/search-orders/SearchOrderPathInfo";
 import Button from "../buttons/Button";
@@ -10,11 +11,15 @@ import { IoChevronBack } from "react-icons/io5";
 
 const MenuOrderConfirm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { price } = useSelector((state) => state.locationInfo);
 
   const confirmHandler = () => {
+    dispatch(setContent("Potwierdzono Twój przejazd"));
     navigate("/order/waiting");
   };
+
   return (
     <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 p-[20px] bg-white drop-shadow rounded-[20px]">
       {/* Top section */}

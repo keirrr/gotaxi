@@ -7,6 +7,9 @@ import { IoChevronBack } from "react-icons/io5";
 
 const MenuOrderWaiting = () => {
   const navigate = useNavigate();
+  const notification = useSelector((state) => state.notification);
+
+  console.log(notification);
 
   return (
     <section className="absolute z-10 h-auto w-[400px] ml-5 mt-5 p-[20px] bg-white drop-shadow rounded-[20px]">
