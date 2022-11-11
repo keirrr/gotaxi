@@ -8,6 +8,9 @@ import {
   setDiscountValue,
 } from "../../../../store/orderInfoSlice";
 
+import axios from "axios";
+
+import Button from "../../../buttons/Button";
 import SearchOrderItem from "./SearchOrderItem";
 import SearchOrderButton from "./SearchOrderButton";
 
@@ -16,6 +19,21 @@ import { IoMdPricetag } from "react-icons/io";
 const SearchOrdersList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [isAuth, setIsAuth] = useState(false);
+
+  const isAuthUrl = "http://localhost:5000/api/isAuth";
+  useEffect(() => {
+    const res = axios.get(isAuthUrl, {
+      withCredentials: true,
+    });
+
+    res.then((res) => {
+      if (res.status === 200) {
+        setIsAuth(true);
+      }
+    });
+  });
 
   const { isDiscountNow, discountValue } = useSelector(
     (state) => state.orderInfo
@@ -43,7 +61,11 @@ const SearchOrdersList = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    navigate("/order/confirm");
+    if (isAuth) {
+      navigate("/order/confirm");
+    } else {
+      navigate("login");
+    }
   };
 
   return (
@@ -63,7 +85,11 @@ const SearchOrdersList = () => {
           <SearchOrderItem type="comfort" />
           <SearchOrderItem type="express" />
           <SearchOrderItem type="walk" />
-          <SearchOrderButton />
+          {isAuth ? (
+            <SearchOrderButton />
+          ) : (
+            <Button name="Zaloguj się żeby zarezerwować" />
+          )}
         </form>
       </div>
     </>
