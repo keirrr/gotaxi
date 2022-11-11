@@ -16,7 +16,7 @@ const MenuOrderConfirm = () => {
   const { price } = useSelector((state) => state.locationInfo);
 
   const confirmHandler = () => {
-    dispatch(setContent("Potwierdzono Twój przejazd"));
+    dispatch(setContent("Potwierdzono przejazd!"));
     navigate("/order/waiting");
   };
 

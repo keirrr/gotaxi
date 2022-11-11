@@ -16,11 +16,13 @@ import validator from "validator";
 import { IoChevronBack } from "react-icons/io5";
 
 // Import Redux and notificationSlice
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setContent } from "../../store/notificationSlice";
 
 const MenuLogin = () => {
   const dispatch = useDispatch();
+
+  const { routeFound } = useSelector((state) => state.locationInfo);
 
   // Redirect if user is authenticated
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ const MenuLogin = () => {
         navigate("/profile");
       }
     });
-  }, [navigate]);
+  }, [navigate, routeFound]);
 
   const [userData, setUserData] = useState({
     email: "",
@@ -87,7 +89,11 @@ const MenuLogin = () => {
       setPasswordError("*Podane hasło jest błędne");
     } else if (login) {
       dispatch(setContent("Pomyślnie zalogowano!"));
-      navigate("/profile");
+      if (routeFound) {
+        navigate("/");
+      } else {
+        navigate("/profile");
+      }
     }
   };
 
