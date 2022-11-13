@@ -3,6 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setContent } from "../../store/notificationSlice";
+import {
+  setStartLat,
+  setStartLng,
+  setDestLat,
+  setDestLng,
+  setRouteFound,
+} from "../../store/locationInfoSlice";
+import { setSearchResults } from "../../store/searchingSlice";
+import {
+  setSelectedItem,
+  setIsDiscountNow,
+  setDiscountValue,
+} from "../../store/orderInfoSlice";
 
 import SearchOrderPathInfo from "../map/results/search-orders/SearchOrderPathInfo";
 import Button from "../buttons/Button";
@@ -16,6 +29,16 @@ const MenuOrderConfirm = () => {
   const { price } = useSelector((state) => state.locationInfo);
 
   const confirmHandler = () => {
+    dispatch(setStartLat(null));
+    dispatch(setStartLng(null));
+    dispatch(setDestLat(null));
+    dispatch(setDestLng(null));
+    dispatch(setRouteFound(false));
+    dispatch(setSelectedItem("regular"));
+    dispatch(setIsDiscountNow(false));
+    dispatch(setDiscountValue(null));
+    dispatch(setSearchResults([]));
+
     dispatch(setContent("Potwierdzono przejazd!"));
     navigate("/order/waiting");
   };

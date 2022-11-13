@@ -14,7 +14,7 @@ import { setSearchingFalse } from "../../../store/searchingSlice";
 
 import { IoLocationSharp } from "react-icons/io5";
 
-const SearchResultItem = (props, { setSearchResults }) => {
+const SearchResultItem = (props) => {
   const dispatch = useDispatch();
 
   const { startLat, startLng, destLat, destLng } = useSelector(
@@ -33,6 +33,7 @@ const SearchResultItem = (props, { setSearchResults }) => {
     } else {
       inputElemToReset = document.getElementById("start-search-input");
     }
+
     inputElem.value = address;
     if (searchingType === "start") {
       dispatch(setStartLat(lat));

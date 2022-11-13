@@ -5,6 +5,7 @@ export const searchingSlice = createSlice({
   initialState: {
     isSearching: false,
     searchingType: "",
+    searchResults: null,
   },
   reducers: {
     setSearchingTrue: (state) => {
@@ -16,10 +17,17 @@ export const searchingSlice = createSlice({
     setSearchingType: (state, action) => {
       state.searchingType = action.payload;
     },
+    setSearchResults: (state, action) => {
+      state.searchResults = action.payload;
+    },
   },
 });
 
-export const { setSearchingTrue, setSearchingFalse, setSearchingType } =
-  searchingSlice.actions;
+export const {
+  setSearchingTrue,
+  setSearchingFalse,
+  setSearchingType,
+  setSearchResults,
+} = searchingSlice.actions;
 
 export default searchingSlice.reducer;

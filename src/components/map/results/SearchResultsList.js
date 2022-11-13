@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 
+import { useSelector } from "react-redux";
+
 import SearchResultItem from "./SearchResultItem";
 
 import ReactLoading from "react-loading";
 
 const SearchResultsList = (props) => {
-  const { searchResults, searchingType } = props;
-
   // Add processed locations to array (with names and coords)
   let newSearchResults = [];
 
-  if (searchResults.data) {
-    searchResults.data.forEach((result) => {
+  const { searchingType, searchResults } = useSelector(
+    (state) => state.searching
+  );
+
+  if (searchResults) {
+    searchResults.forEach((result) => {
       const { tourism, city, house_number, road, county } = result.address;
 
       let address;
