@@ -12,7 +12,10 @@ import {
   setDestLng,
   setRouteFound,
 } from "../../store/locationInfoSlice";
-import { setSearchingFalse } from "../../store/searchingSlice";
+import {
+  setSearchingFalse,
+  setSearchResults,
+} from "../../store/searchingSlice";
 import {
   setSelectedItem,
   setIsDiscountNow,
@@ -36,15 +39,13 @@ import { IoClose } from "react-icons/io5";
 const MenuLogout = () => {
   const dispatch = useDispatch();
 
-  const { isSearching, searchingType } = useSelector(
+  const { isSearching, searchingType, searchResults } = useSelector(
     (state) => state.searching
   );
-  const [searchResults, setSearchResults] = useState([]);
 
-  const { startLat, startLng, destLat, destLng } = useSelector(
+  const { startLat, startLng, destLat, destLng, routeFound } = useSelector(
     (state) => state.locationInfo
   );
-  const { routeFound } = useSelector((state) => state.locationInfo);
 
   const resetRoute = () => {
     dispatch(setStartLat(null));
@@ -55,7 +56,7 @@ const MenuLogout = () => {
     dispatch(setSelectedItem("regular"));
     dispatch(setIsDiscountNow(false));
     dispatch(setDiscountValue(null));
-    setSearchResults([]);
+    dispatch(setSearchResults([]));
     document.getElementById("start-search-input").value = "";
     document.getElementById("dest-search-input").value = "";
   };
@@ -99,25 +100,14 @@ const MenuLogout = () => {
           </Link>
         </div>
         {/* Search inputs */}
-        <SearchLocationInput
-          searchResults={searchResults}
-          setSearchResults={setSearchResults}
-          inputSearchingType="start"
-        />
-        <SearchLocationInput
-          searchResults={searchResults}
-          setSearchResults={setSearchResults}
-          inputSearchingType="dest"
-        />
+        <SearchLocationInput inputSearchingType="start" />
+        <SearchLocationInput inputSearchingType="dest" />
       </div>
       {/* Recent searches */}
       <div className="p-5 pt-[10px]">
         <div className="relative">
           {isSearching ? (
-            <SearchResultsList
-              searchResults={searchResults}
-              searchingType={searchingType}
-            />
+            <SearchResultsList searchingType={searchingType} />
           ) : (
             <>
               {routeFound ? <SearchOrdersList /> : <RecentSearchResultsList />}

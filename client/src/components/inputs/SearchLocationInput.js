@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchingTrue, setSearchingType } from "../../store/searchingSlice";
+import {
+  setSearchingTrue,
+  setSearchingFalse,
+  setSearchingType,
+  setSearchResults,
+} from "../../store/searchingSlice";
 import {
   setStartLat,
   setStartLng,
@@ -10,25 +15,19 @@ import {
   setDestLng,
   setDestLocationName,
 } from "../../store/locationInfoSlice.js";
-import { setSearchingFalse } from "../../store/searchingSlice";
 
 import axios from "axios";
 
 import { BiCurrentLocation } from "react-icons/bi";
 import { IoRepeat } from "react-icons/io5";
 
-const SearchLocationInput = ({
-  searchResults,
-  setSearchResults,
-  setIsSearching,
-  inputSearchingType,
-}) => {
+const SearchLocationInput = ({ setIsSearching, inputSearchingType }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [timer, setTimer] = useState(null);
 
   const dispatch = useDispatch();
 
-  const { isSearching, searchingType } = useSelector(
+  const { isSearching, searchingType, searchResults } = useSelector(
     (state) => state.searching
   );
   const { startLat, startLng, destLat, destLng } = useSelector(
@@ -91,7 +90,7 @@ const SearchLocationInput = ({
 
     const res = await axios.get(url);
 
-    setSearchResults(res);
+    dispatch(setSearchResults(res.data));
   };
 
   const inputChanged = (e) => {
@@ -120,13 +119,13 @@ const SearchLocationInput = ({
 
   // Pick location on enter
   const onEnterPress = (e) => {
-    if (isSearching && searchResults.data) {
+    if (isSearching && searchResults) {
       const searchInputElem = document.getElementById(
         `${searchingType}-search-input`
       );
 
       if (e.key === "Enter") {
-        const firstLocationInfo = searchResults.data[0];
+        const firstLocationInfo = searchResults[0];
 
         let inputElemToReset;
         if (searchingType === "start") {
@@ -254,8 +253,8 @@ const SearchLocationInput = ({
           <button
             id="current-location"
             onClick={getCurrentPosition}
-            className={`flex items-center z-10 transition-all opacity-0 ${
-              isFocused && "opacity-100 delay-[100ms]"
+            className={`flex items-center z-10 transition-all ${
+              isFocused ? "opacity-100 delay-[100ms]" : "opacity-0"
             }`}
             disabled={hideCurrentLocation}
             tabIndex="-1"
