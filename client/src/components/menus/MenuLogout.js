@@ -6,16 +6,15 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeScreenTo } from "../../features/menuScreen";
 import {
+  setStartLocationName,
   setStartLat,
   setStartLng,
+  setDestLocationName,
   setDestLat,
   setDestLng,
   setRouteFound,
 } from "../../store/locationInfoSlice";
-import {
-  setSearchingFalse,
-  setSearchResults,
-} from "../../store/searchingSlice";
+import { setSearchResults } from "../../store/searchingSlice";
 import {
   setSelectedItem,
   setIsDiscountNow,
@@ -25,9 +24,11 @@ import {
 // Router
 import { Outlet, Link } from "react-router-dom";
 
+// Cookies
+import { useCookies } from "react-cookie";
+
 // Components
 import SearchLocationInput from "../inputs/SearchLocationInput";
-import SearchButton from "../buttons/SearchButton";
 import SearchResultsList from "../map/results/SearchResultsList";
 import RecentSearchResultsList from "../map/results/RecentSearchResultsList";
 import SearchOrdersList from "../map/results/search-orders/SearchOrdersList";
@@ -37,19 +38,64 @@ import { BiUser } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 
 const MenuLogout = () => {
-  const dispatch = useDispatch();
+  const [cookies, setCookie] = useCookies([]);
 
-  const { isSearching, searchingType, searchResults } = useSelector(
+  const dispatch = useDispatch();
+  const { isSearching, searchingType } = useSelector(
     (state) => state.searching
   );
 
-  const { startLat, startLng, destLat, destLng, routeFound } = useSelector(
-    (state) => state.locationInfo
-  );
+  const {
+    startLocationName,
+    startLat,
+    startLng,
+    destLocationName,
+    destLat,
+    destLng,
+    routeFound,
+  } = useSelector((state) => state.locationInfo);
+
+  console.log(routeFound);
+
+  useEffect(() => {
+    if (routeFound) {
+      const locationCookieInfo = {
+        startLocationName,
+        startLat,
+        startLng,
+        destLocationName,
+        destLat,
+        destLng,
+      };
+
+      if (
+        // If cookie is not empty
+        cookies["recent-searches"] &&
+        cookies["recent-searches"].length > 0
+      ) {
+        let prevCookieSearches = cookies["recent-searches"];
+        console.log("Dodawanie");
+        //console.log("last: " + cookies["recent-searches"]);
+        //if (prevCookieSearches[2] !== locationCookieInfo) {
+        prevCookieSearches.push(locationCookieInfo);
+        // if (prevCookieSearches.length > 3) {
+        //   prevCookieSearches.shift();
+        // }
+        //}
+        setCookie("recent-searches", prevCookieSearches);
+        console.log("Push not empty", prevCookieSearches);
+      } else {
+        setCookie("recent-searches", new Array(locationCookieInfo));
+        //console.log("Push null", cookies);
+      }
+    }
+  });
 
   const resetRoute = () => {
+    dispatch(setStartLocationName(null));
     dispatch(setStartLat(null));
     dispatch(setStartLng(null));
+    dispatch(setDestLocationName(null));
     dispatch(setDestLat(null));
     dispatch(setDestLng(null));
     dispatch(setRouteFound(false));

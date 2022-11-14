@@ -3,16 +3,15 @@ import L from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 
+// React
+import { useState, useEffect } from "react";
+
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setDistance,
   setTime,
   setRouteFound,
-  setStartLat,
-  setStartLng,
-  setDestLat,
-  setDestLng,
 } from "../../store/locationInfoSlice";
 
 // CSS
