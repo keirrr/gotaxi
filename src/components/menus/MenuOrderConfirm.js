@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setContent } from "../../store/notificationSlice";
 import {
+  setStartLocationName,
   setStartLat,
   setStartLng,
+  setDestLocationName,
   setDestLat,
   setDestLng,
   setRouteFound,
@@ -29,8 +31,10 @@ const MenuOrderConfirm = () => {
   const { price } = useSelector((state) => state.locationInfo);
 
   const confirmHandler = () => {
+    dispatch(setStartLocationName(null));
     dispatch(setStartLat(null));
     dispatch(setStartLng(null));
+    dispatch(setDestLocationName(null));
     dispatch(setDestLat(null));
     dispatch(setDestLng(null));
     dispatch(setRouteFound(false));
