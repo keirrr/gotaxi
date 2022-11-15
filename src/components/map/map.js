@@ -17,6 +17,8 @@ const Map = () => {
   const dispatch = useDispatch();
   const routingMachine = useRef();
 
+  console.log("map");
+
   const coords = useSelector((state) => state.locationInfo);
   const [centerCoords, setCenterCoords] = useState([52.23, 21.01]);
 

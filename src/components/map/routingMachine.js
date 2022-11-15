@@ -3,16 +3,16 @@ import L from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 
-// React
-import { useState, useEffect } from "react";
-
 // Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setDistance,
   setTime,
   setRouteFound,
 } from "../../store/locationInfoSlice";
+
+// Axios
+import axios from "axios";
 
 // CSS
 import "./style.css";
@@ -76,6 +76,32 @@ const CreateRoutingMachineLayer = ({ coords }) => {
     autoRoute: true,
   });
 
+  const getLocationByCoords = (lat, lng) => {
+    const res = axios.get(
+      `https://nominatim.openstreetmap.org/search?q=${lat},${lng}&polygon_geojson=1&format=json`
+    );
+
+    res.then((res) => {
+      const locationInfo = res.data[0].display_name.split(",");
+
+      const house_number = locationInfo[0].trim();
+      const road = locationInfo[1].trim();
+      const city = locationInfo[4].trim();
+
+      let address = "";
+
+      if (house_number == null && road == null) {
+        address = `${city}`;
+      } else if (house_number == null) {
+        address = `${road},${city}`;
+      } else if (house_number != null) {
+        address = `${road} ${house_number}, ${city}`;
+      }
+
+      return address;
+    });
+  };
+
   // Get route info on route found
   control.on("routesfound", function (e) {
     const routes = e.routes;
@@ -83,6 +109,30 @@ const CreateRoutingMachineLayer = ({ coords }) => {
 
     const totalDistance = summary.totalDistance / 1000;
     const totalTime = summary.totalTime;
+
+    const startLocationName = getLocationByCoords(
+      coords.startLat,
+      coords.startLng
+    );
+    const destLocationName = getLocationByCoords(
+      coords.destLat,
+      coords.destLng
+    );
+
+    const searchResultData = {
+      startLocationName: startLocationName,
+      startLat: coords.startLat,
+      startLng: coords.startLng,
+      destLocationName: destLocationName,
+      destLat: coords.destLat,
+      destLng: coords.destLng,
+    };
+
+    const url = "http://localhost:5000/api/saveSearchResult";
+
+    axios.post(url, searchResultData, { withCredentials: true }).then((res) => {
+      console.log(res);
+    });
 
     dispatch(setDistance(totalDistance));
     dispatch(setTime(totalTime));

@@ -40,6 +40,10 @@ import { IoClose } from "react-icons/io5";
 const MenuLogout = () => {
   const [cookies, setCookie] = useCookies([]);
 
+  useEffect(() => {
+    console.log("menu");
+  });
+
   const dispatch = useDispatch();
   const { isSearching, searchingType } = useSelector(
     (state) => state.searching
@@ -55,41 +59,43 @@ const MenuLogout = () => {
     routeFound,
   } = useSelector((state) => state.locationInfo);
 
-  console.log(routeFound);
-
   useEffect(() => {
-    if (routeFound) {
-      const locationCookieInfo = {
-        startLocationName,
-        startLat,
-        startLng,
-        destLocationName,
-        destLat,
-        destLng,
-      };
-
-      if (
-        // If cookie is not empty
-        cookies["recent-searches"] &&
-        cookies["recent-searches"].length > 0
-      ) {
-        let prevCookieSearches = cookies["recent-searches"];
-        console.log("Dodawanie");
-        //console.log("last: " + cookies["recent-searches"]);
-        //if (prevCookieSearches[2] !== locationCookieInfo) {
-        prevCookieSearches.push(locationCookieInfo);
-        // if (prevCookieSearches.length > 3) {
-        //   prevCookieSearches.shift();
-        // }
-        //}
-        setCookie("recent-searches", prevCookieSearches);
-        console.log("Push not empty", prevCookieSearches);
-      } else {
-        setCookie("recent-searches", new Array(locationCookieInfo));
-        //console.log("Push null", cookies);
-      }
-    }
+    console.log(routeFound);
   });
+
+  // useEffect(() => {
+  //   if (routeFound) {
+  //     const locationCookieInfo = {
+  //       startLocationName,
+  //       startLat,
+  //       startLng,
+  //       destLocationName,
+  //       destLat,
+  //       destLng,
+  //     };
+
+  //     if (
+  //       // If cookie is not empty
+  //       cookies["recent-searches"] &&
+  //       cookies["recent-searches"].length > 0
+  //     ) {
+  //       let prevCookieSearches = cookies["recent-searches"];
+  //       console.log("Dodawanie");
+  //       //console.log("last: " + cookies["recent-searches"]);
+  //       //if (prevCookieSearches[2] !== locationCookieInfo) {
+  //       prevCookieSearches.push(locationCookieInfo);
+  //       // if (prevCookieSearches.length > 3) {
+  //       //   prevCookieSearches.shift();
+  //       // }
+  //       //}
+  //       setCookie("recent-searches", prevCookieSearches);
+  //       console.log("Push not empty", prevCookieSearches);
+  //     } else {
+  //       setCookie("recent-searches", new Array(locationCookieInfo));
+  //       //console.log("Push null", cookies);
+  //     }
+  //   }
+  // });
 
   const resetRoute = () => {
     dispatch(setStartLocationName(null));
