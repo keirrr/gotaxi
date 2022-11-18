@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
-
 import { useSelector } from "react-redux";
 
 import SearchResultItem from "./SearchResultItem";
 
 import ReactLoading from "react-loading";
 
-const SearchResultsList = (props) => {
+const SearchResultsList = () => {
   // Add processed locations to array (with names and coords)
   let newSearchResults = [];
 
@@ -16,14 +14,12 @@ const SearchResultsList = (props) => {
 
   if (searchResults) {
     searchResults.forEach((result) => {
-      const { tourism, city, house_number, road, county } = result.address;
+      const { tourism, city, house_number, road } = result.address;
 
       let address;
 
       if (house_number == null && road == null) {
         address = `${city}`;
-      } else if (house_number == null) {
-        address = `${road}, ${city}`;
       } else if (house_number == null && tourism == null) {
         address = `${road}, ${city}`;
       } else if (house_number == null && tourism != null) {

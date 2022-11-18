@@ -20,7 +20,7 @@ const loginUser = async (email, password) => {
     })
     .catch((err) => {
       if (JSON.parse(err.request.responseText).message === "Wrong data") {
-        return ({ msg: "Wrong data"})
+        return { msg: "Wrong data" };
       }
       return false;
     });

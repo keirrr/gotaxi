@@ -21,7 +21,7 @@ import axios from "axios";
 import { BiCurrentLocation } from "react-icons/bi";
 import { IoRepeat } from "react-icons/io5";
 
-const SearchLocationInput = ({ setIsSearching, inputSearchingType }) => {
+const SearchLocationInput = ({ inputSearchingType }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [timer, setTimer] = useState(null);
 
@@ -37,7 +37,7 @@ const SearchLocationInput = ({ setIsSearching, inputSearchingType }) => {
 
   const [hideCurrentLocation, setHideCurrentLocation] = useState(true);
 
-  const getCurrentPosition = async (props) => {
+  const getCurrentPosition = async () => {
     const success = (position) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
@@ -141,8 +141,6 @@ const SearchLocationInput = ({ setIsSearching, inputSearchingType }) => {
 
         if (house_number == null && road == null) {
           address = `${city}`;
-        } else if (house_number == null) {
-          address = `${road}, ${city}`;
         } else if (house_number == null && tourism == null) {
           address = `${road}, ${city}`;
         } else if (house_number == null && tourism != null) {
