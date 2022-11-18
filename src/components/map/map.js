@@ -1,5 +1,3 @@
-// Leaflet
-import L from "leaflet";
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -62,7 +60,11 @@ const Map = () => {
           url={`https://{s}.tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=${accessToken}`}
         />
         <ZoomControl position="topright" />
-        <RoutingMachine ref={routingMachine} coords={coords} />
+        <RoutingMachine
+          ref={routingMachine}
+          coords={coords}
+          dispatch={dispatch}
+        />
       </MapContainer>
     </section>
   );

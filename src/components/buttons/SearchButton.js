@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { IoSearch } from "react-icons/io5";
 
 const SearchButton = () => {

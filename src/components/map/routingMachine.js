@@ -17,9 +17,7 @@ import axios from "axios";
 // CSS
 import "./style.css";
 
-const CreateRoutingMachineLayer = ({ coords }) => {
-  const dispatch = useDispatch();
-
+const CreateRoutingMachineLayer = ({ dispatch, coords }) => {
   const control = L.Routing.control({
     waypoints: [
       [coords.startLat, coords.startLng],
@@ -28,7 +26,7 @@ const CreateRoutingMachineLayer = ({ coords }) => {
     lineOptions: {
       styles: [{ color: "#FACC15", opacity: 1, weight: 8 }],
     },
-    createMarker: function (i: number, waypoint: any, n: number) {
+    createMarker: function (i, waypoint) {
       const startMarker = L.marker(waypoint.latLng, {
         draggable: false,
         icon: L.icon({
