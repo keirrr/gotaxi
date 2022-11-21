@@ -5,6 +5,9 @@ import { setSearchingFalse } from "../../store/searchingSlice";
 
 import { useRef, useEffect, useState } from "react";
 
+// Cookies
+import { useCookies } from "react-cookie";
+
 import RoutingMachine from "./routingMachine";
 
 // CSS
@@ -15,9 +18,10 @@ const Map = () => {
   const dispatch = useDispatch();
   const routingMachine = useRef();
 
-  console.log("map");
-
   const coords = useSelector((state) => state.locationInfo);
+
+  const [cookies, setCookie] = useCookies([]);
+
   const [centerCoords, setCenterCoords] = useState([52.23, 21.01]);
 
   const accessToken =
@@ -64,6 +68,8 @@ const Map = () => {
           ref={routingMachine}
           coords={coords}
           dispatch={dispatch}
+          cookies={cookies}
+          setCookie={setCookie}
         />
       </MapContainer>
     </section>

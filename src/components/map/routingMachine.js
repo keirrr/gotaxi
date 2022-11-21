@@ -4,7 +4,6 @@ import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
 
 // Redux
-import { useDispatch } from "react-redux";
 import {
   setDistance,
   setTime,
@@ -17,7 +16,12 @@ import axios from "axios";
 // CSS
 import "./style.css";
 
-const CreateRoutingMachineLayer = ({ dispatch, coords }) => {
+const CreateRoutingMachineLayer = ({
+  dispatch,
+  coords,
+  cookies,
+  setCookie,
+}) => {
   const control = L.Routing.control({
     waypoints: [
       [coords.startLat, coords.startLng],
@@ -118,19 +122,31 @@ const CreateRoutingMachineLayer = ({ dispatch, coords }) => {
     );
 
     const searchResultData = {
-      startLocationName: startLocationName,
+      startLocationName: coords.startLocationName,
       startLat: coords.startLat,
       startLng: coords.startLng,
-      destLocationName: destLocationName,
+      destLocationName: coords.destLocationName,
       destLat: coords.destLat,
       destLng: coords.destLng,
     };
 
-    const url = "http://localhost:5000/api/saveSearchResult";
-
-    axios.post(url, searchResultData, { withCredentials: true }).then((res) => {
-      console.log(res);
-    });
+    // If cookie is not empty
+    if (cookies["recent-searches"] && cookies["recent-searches"].length > 0) {
+      let prevCookieSearches = cookies["recent-searches"];
+      console.log("Dodawanie");
+      //console.log("last: " + cookies["recent-searches"]);
+      //if (prevCookieSearches[2] !== locationCookieInfo) {
+      prevCookieSearches.push(searchResultData);
+      // if (prevCookieSearches.length > 3) {
+      //   prevCookieSearches.shift();
+      // }
+      //}
+      setCookie("recent-searches", prevCookieSearches);
+      console.log("Push not empty", prevCookieSearches);
+    } else {
+      setCookie("recent-searches", new Array(searchResultData));
+      console.log("Push null", cookies);
+    }
 
     dispatch(setDistance(totalDistance));
     dispatch(setTime(totalTime));
