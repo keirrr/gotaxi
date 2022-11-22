@@ -112,15 +112,6 @@ const CreateRoutingMachineLayer = ({
     const totalDistance = summary.totalDistance / 1000;
     const totalTime = summary.totalTime;
 
-    const startLocationName = getLocationByCoords(
-      coords.startLat,
-      coords.startLng
-    );
-    const destLocationName = getLocationByCoords(
-      coords.destLat,
-      coords.destLng
-    );
-
     const searchResultData = {
       startLocationName: coords.startLocationName,
       startLat: coords.startLat,
@@ -130,22 +121,24 @@ const CreateRoutingMachineLayer = ({
       destLng: coords.destLng,
     };
 
-    // If cookie is not empty
-    if (cookies["recent-searches"] && cookies["recent-searches"].length > 0) {
-      let prevCookieSearches = cookies["recent-searches"];
-      console.log("Dodawanie");
-      //console.log("last: " + cookies["recent-searches"]);
-      //if (prevCookieSearches[2] !== locationCookieInfo) {
-      prevCookieSearches.push(searchResultData);
-      // if (prevCookieSearches.length > 3) {
-      //   prevCookieSearches.shift();
-      // }
-      //}
-      setCookie("recent-searches", prevCookieSearches);
-      console.log("Push not empty", prevCookieSearches);
-    } else {
-      setCookie("recent-searches", new Array(searchResultData));
-      console.log("Push null", cookies);
+    if (coords.startLocationName !== null && coords.destLocationName !== null) {
+      // If cookie is not empty
+      if (cookies["recent-searches"] && cookies["recent-searches"].length > 0) {
+        let prevCookieSearches = cookies["recent-searches"];
+        console.log("Dodawanie");
+        //console.log("last: " + cookies["recent-searches"]);
+        if (prevCookieSearches[2] !== searchResultData) {
+          prevCookieSearches.push(searchResultData);
+          if (prevCookieSearches.length > 3) {
+            prevCookieSearches.shift();
+          }
+        }
+        setCookie("recent-searches", prevCookieSearches);
+        console.log("Push not empty", prevCookieSearches);
+      } else {
+        setCookie("recent-searches", new Array(searchResultData));
+        console.log("Push null", cookies);
+      }
     }
 
     dispatch(setDistance(totalDistance));
