@@ -83,7 +83,6 @@ const MenuLogin = () => {
     e.preventDefault();
 
     const login = await loginUser(userData.email, userData.password);
-    console.log(login);
     if (login.msg === "Wrong data") {
       setIsPasswordValid(false);
       setPasswordError("*Podane hasło jest błędne");
@@ -114,7 +113,7 @@ const MenuLogin = () => {
         <div className="p-1 w-[24px] h-[24px]"></div>
       </div>
       <div className="flex flex-col justify-center">
-        <form onSubmit={loginUserHandler}>
+        <form id="login-form" onSubmit={loginUserHandler}>
           <TextInput
             placeholder="Adres e-mail"
             inputType="email"
