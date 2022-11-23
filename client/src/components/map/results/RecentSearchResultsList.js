@@ -8,8 +8,6 @@ const RecentSearchResultsList = () => {
 
   const searches = cookies["recent-searches"];
 
-  console.log(searches);
-
   return (
     <div>
       <p className="font-bold">Ostatnie wyszukiwania</p>
@@ -19,13 +17,7 @@ const RecentSearchResultsList = () => {
         <>
           {Array.isArray(searches) ? (
             searches.map((result, index) => {
-              return (
-                <RecentSearchItem
-                  key={index}
-                  startLocationName={result.startLocationName}
-                  destLocationName={result.destLocationName}
-                />
-              );
+              return <RecentSearchItem key={index} locationInfo={result} />;
             })
           ) : (
             <RecentSearchItem
