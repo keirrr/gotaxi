@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,10 @@ import { setPrice } from "../../../../store/locationInfoSlice";
 import { setSelectedItem } from "../../../../store/orderInfoSlice";
 
 import moment from "moment";
+
+// Loader
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import { IoMdPricetag } from "react-icons/io";
 
@@ -23,63 +27,86 @@ const SearchOrderItem = (props) => {
   // Selected order item
   const isItemSelected = selectedItem === type;
 
+  const [time, setTime] = useState();
+  const [isTimeCalculated, setIsTimeCalculated] = useState(false);
+  const [price, setPriceLocally] = useState();
+  const [discountedPrice, setDiscountedPrice] = useState();
+  const [isPriceCalculated, setIsPriceCalculated] = useState(false);
+
   // Order price and distance info
   const { totalDistance, totalTime } = routeInfo;
-  let convertedTime, price;
+  let convertedTime, daysDiff;
 
-  let timeMultipler = 1;
-  let priceMultipler = 1;
+  let timeMultiplier = 1;
+  let priceMultiplier = 1;
   let vechicleImage = "taxi";
   let name = type.charAt(0).toUpperCase() + type.slice(1);
 
   switch (type) {
     case "comfort":
-      priceMultipler = 1.2;
+      priceMultiplier = 1.2;
       break;
 
     case "express":
-      timeMultipler = 0.6;
-      priceMultipler = 1.4;
+      timeMultiplier = 0.6;
+      priceMultiplier = 1.4;
       vechicleImage = "police";
       break;
 
     case "walk":
       vechicleImage = "walk";
+      if (totalDistance !== 0) {
+        convertedTime = moment().add(totalDistance * 10, "minutes");
+
+        const todayDate = moment();
+        daysDiff = convertedTime.diff(todayDate, "days", true);
+      }
       break;
 
     default:
       break;
   }
 
-  if (type === "walk") {
-    convertedTime = moment().add(totalDistance * 10, "minutes");
-  } else {
+  if (type !== "walk" && totalTime !== 0) {
     convertedTime = moment()
-      .add(totalTime * timeMultipler, "seconds")
+      .add(totalTime * timeMultiplier, "seconds")
       .add(4, "minutes");
+
+    const todayDate = moment();
+    daysDiff = convertedTime.diff(todayDate, "days", true);
   }
 
-  const todayDate = moment();
-  const daysDiff = convertedTime.diff(todayDate, "days", true);
-
-  let timeString;
-  if (daysDiff < 1) {
-    timeString = `Na miejscu o ${convertedTime.format("HH:mm")}`;
-  } else if (daysDiff <= 1) {
-    timeString = `Na miejscu już jutro`;
-  } else if (daysDiff > 1) {
-    timeString = `Na miejscu za ${Math.ceil(daysDiff)} dni`;
-  }
-
-  let discountedPrice;
-  if (type === "walk") {
-    price = "FREE";
-  } else {
-    price = (5 + priceMultipler * totalDistance).toFixed(2);
-    if (isDiscountNow) {
-      discountedPrice = (price * (discountValue / 100)).toFixed(2);
+  useEffect(() => {
+    if (daysDiff < 1) {
+      setTime(`Na miejscu o ${convertedTime.format("HH:mm")}`);
+      setIsTimeCalculated(true);
+    } else if (daysDiff <= 1) {
+      setTime(`Na miejscu już jutro`);
+      setIsTimeCalculated(true);
+    } else if (daysDiff > 1) {
+      setTime(`Na miejscu za ${Math.ceil(daysDiff)} dni`);
+      setIsTimeCalculated(true);
     }
-  }
+  }, [daysDiff, convertedTime, timeMultiplier]);
+
+  useEffect(() => {
+    if (type !== "walk" && totalDistance !== 0) {
+      setPriceLocally((5 + priceMultiplier * totalDistance).toFixed(2));
+      if (isDiscountNow) {
+        setDiscountedPrice((price * (discountValue / 100)).toFixed(2));
+      }
+      setIsPriceCalculated(true);
+    } else if (type === "walk" && totalDistance !== 0) {
+      setIsPriceCalculated(true);
+    }
+  }, [
+    type,
+    totalDistance,
+    priceMultiplier,
+    isDiscountNow,
+    price,
+    discountValue,
+  ]);
 
   useEffect(() => {
     if (isItemSelected) {
@@ -89,7 +116,7 @@ const SearchOrderItem = (props) => {
         dispatch(setPrice(price));
       }
     }
-  });
+  }, [isItemSelected, isDiscountNow, type, dispatch, discountedPrice, price]);
 
   const chooseHandler = () => {
     dispatch(setSelectedItem(type));
@@ -117,7 +144,9 @@ const SearchOrderItem = (props) => {
         </div>
         <div>
           <p className="font-bold text-[18px]">Taxi{name}</p>
-          <p className="text-[16px]">{timeString}</p>
+          <p className="text-[16px]">
+            {isTimeCalculated ? time : <Skeleton />}
+          </p>
         </div>
       </div>
       <div className="mr-[10px]">
@@ -125,13 +154,20 @@ const SearchOrderItem = (props) => {
           <div className="flex-col items-end">
             <div className="flex items-center justify-center">
               <IoMdPricetag color="#2EAA68" className="mr-[5px]" />
-              <p className="font-bold text-[20px]">{discountedPrice}</p>
+              <p className="font-bold text-[20px]">
+                {isPriceCalculated ? discountedPrice : <Skeleton />}
+              </p>
             </div>
-            <p className="line-through text-right">{price}</p>
+            <p className="line-through text-right">
+              {isPriceCalculated && price ? price : <Skeleton />}
+            </p>
           </div>
         ) : (
           <p className="font-bold text-[20px]">
-            {type === "walk" ? price : price + "zł"}
+            {type === "walk" && isPriceCalculated && "FREE"}
+            {type === "walk" && !isPriceCalculated && <Skeleton width="50px" />}
+            {type !== "walk" && isPriceCalculated && price + "zł"}
+            {type !== "walk" && !isPriceCalculated && <Skeleton width="50px" />}
           </p>
         )}
       </div>
