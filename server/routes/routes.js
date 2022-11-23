@@ -101,7 +101,8 @@ router.post("/login", async (req, res) => {
 
   const matchPassword = await bcrypt.compare(password, user.password);
   if (matchPassword) {
-    const userSession = { email: user.email };
+    const userSession = { name: user.name, email: user.email };
+    console.log(user);
     req.session.user = userSession;
 
     return res
