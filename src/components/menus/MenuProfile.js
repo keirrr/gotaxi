@@ -14,12 +14,15 @@ import { BiUserCircle } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { setContent } from "../../store/notificationSlice";
 
+import WhiteButton from "../buttons/WhiteButton";
+
 const MenuProfile = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
+    name: "",
     email: "",
   });
 
@@ -38,7 +41,7 @@ const MenuProfile = () => {
       });
 
     isAuthData.then((res) => {
-      setUserData({ email: res.data.email });
+      setUserData({ name: res.data.name, email: res.data.email });
     });
   });
 
@@ -80,12 +83,22 @@ const MenuProfile = () => {
         </div>
 
         {/* Username */}
-        <p className="text-center font-bold text-lg">{userData.email}</p>
+        <p className="text-center font-bold text-lg">{userData.name}</p>
       </div>
-      {/* Recent searches */}
-      <div className="p-5 pt-0">
+      {/* Logout */}
+      <section className="p-5 pt-0 mt-[20px]">
+        <WhiteButton
+          name="Edytuj profil"
+          icon="edit-profile"
+          path="profile/edit"
+        />
+        <WhiteButton
+          name="Historia przejazdów"
+          icon="orders-history"
+          path="profile/orders"
+        />
         <Button name="Wyloguj się" clickFunc={logoutHandler} />
-      </div>
+      </section>
     </section>
   );
 };
