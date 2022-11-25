@@ -66,5 +66,5 @@
     "tailwind-scrollbar": "^2.1.0-preview.0",
     "tailwindcss": "^3.1.8"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "https://gotaxi-server-production.up.railway.app/"
 }
