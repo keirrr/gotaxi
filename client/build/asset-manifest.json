@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.e0128dc7.css",
-    "main.js": "/static/js/main.5e1c3c63.js",
-    "index.html": "/index.html",
-    "main.e0128dc7.css.map": "/static/css/main.e0128dc7.css.map",
-    "main.5e1c3c63.js.map": "/static/js/main.5e1c3c63.js.map"
+    "main.css": "/gotaxi/static/css/main.e0128dc7.css",
+    "main.js": "/gotaxi/static/js/main.5e1c3c63.js",
+    "index.html": "/gotaxi/index.html",
+    "main.e0128dc7.css.map": "/gotaxi/static/css/main.e0128dc7.css.map",
+    "main.5e1c3c63.js.map": "/gotaxi/static/js/main.5e1c3c63.js.map"
   },
   "entrypoints": [
     "static/css/main.e0128dc7.css",

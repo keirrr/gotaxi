@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const loginUser = async (email, password) => {
-  const url = "http://localhost:5000/api/login";
+  const url = "https://gotaxi-server-production.up.railway.app/api/login";
 
   const res = await axios
     .post(
