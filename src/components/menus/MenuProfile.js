@@ -90,12 +90,12 @@ const MenuProfile = () => {
         <WhiteButton
           name="Edytuj profil"
           icon="edit-profile"
-          path="profile/edit"
+          path="/profile/edit"
         />
         <WhiteButton
           name="Historia przejazdów"
           icon="orders-history"
-          path="profile/orders"
+          path="/profile/orders"
         />
         <Button name="Wyloguj się" clickFunc={logoutHandler} />
       </section>

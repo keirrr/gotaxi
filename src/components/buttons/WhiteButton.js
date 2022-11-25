@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 import { IoChevronForward, IoPerson, IoTime } from "react-icons/io5";
 
 const WhiteButton = ({ name, icon, path }) => {
+  const navigate = useNavigate();
+
   const navigateTo = () => {
-    console.log("XD");
+    navigate(path);
   };
 
   return (
