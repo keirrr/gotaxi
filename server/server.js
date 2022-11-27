@@ -11,6 +11,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const cookieParser = require("cookie-parser");
 
 const routes = require("./routes/routes");
+const avatar = require("./routes/avatar");
 
 // CORS
 const cors = require("cors");
@@ -54,20 +55,22 @@ database.once("connected", () => {
 });
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse application/json
 app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost",
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
 );
 
+// Use routes
 app.use("/api", routes);
+app.use("/api", avatar);
 
 app.post("/createUser", (req, res) => {
   console.log("Data sended");

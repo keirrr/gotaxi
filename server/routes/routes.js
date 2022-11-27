@@ -134,32 +134,4 @@ router.get("/isAuth", async (req, res) => {
   }
 });
 
-// save search result in cookie
-router.post("/saveSearchResult", async (req, res) => {
-  console.log("Save result", req.body);
-  const {
-    startLocationName,
-    startLat,
-    startLng,
-    destLocationName,
-    destLat,
-    destLng,
-  } = req.body;
-
-  const searchResultData = {
-    startLocationName,
-    startLat,
-    startLng,
-    startLocationName,
-    destLat,
-    destLng,
-  };
-
-  if (searchResultData) {
-    console.log(req.cookies);
-    res.cookie("search-results", searchResultData);
-    res.send("cookie saved");
-  }
-});
-
 module.exports = router;
