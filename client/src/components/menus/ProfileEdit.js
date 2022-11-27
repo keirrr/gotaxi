@@ -149,18 +149,21 @@ const MenuProfile = () => {
     e.preventDefault();
 
     // Validation
-    checkNameInput();
-    checkPasswordInput();
-    checkRepasswordInput();
+    // checkNameInput();
+    // checkPasswordInput();
+    // checkRepasswordInput();
 
-    // const edit = await createUser(
-    //   userData.name,
-    //   userData.email,
-    //   userData.password
-    // );
-    // if (edit) {
-    //   navigate("/profile");
-    // }
+    if (isFilePicked) {
+      console.log("Upload");
+      const uploadUrl = "http://localhost:5000/api/upload";
+      const upload = await axios
+        .post(uploadUrl, selectedFile, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    }
   };
 
   const uploadFileHandler = (e) => {

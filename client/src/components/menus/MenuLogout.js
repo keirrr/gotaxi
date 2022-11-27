@@ -35,6 +35,8 @@ import RecentSearchResultsList from "../map/results/RecentSearchResultsList";
 import { BiUser } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 
+import logo from "../../imgs/svgs/logo.svg";
+
 const MenuLogout = () => {
   const [cookies, setCookie] = useCookies([]);
 
@@ -92,11 +94,7 @@ const MenuLogout = () => {
           )}
           {/* Logo */}
           <div className="flex items-center">
-            <img
-              className="h-[20px] mr-[5px]"
-              src="/imgs/svgs/gotaxi-logo.svg"
-              alt="GoTaxi Logo"
-            />
+            <img className="h-[20px] mr-[5px]" src={logo} alt="GoTaxi Logo" />
             <span className="relative text-xl font-black text-gray-900 m-0 mx-auto">
               GoTaxi
             </span>

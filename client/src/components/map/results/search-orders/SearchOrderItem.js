@@ -11,6 +11,11 @@ import moment from "moment";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
+// Images
+import police from "../../../../imgs/svgs/police.svg";
+import taxi from "../../../../imgs/svgs/taxi.svg";
+import walk from "../../../../imgs/svgs/walk.svg";
+
 import { IoMdPricetag } from "react-icons/io";
 
 const SearchOrderItem = (props) => {
@@ -138,7 +143,13 @@ const SearchOrderItem = (props) => {
         <div className="flex items-center px-[15px] py-[10px] h-full w-[90px]">
           <img
             className="h-full w-full"
-            src={`/imgs/svgs/${vechicleImage}.svg`}
+            src={
+              vechicleImage === "taxi"
+                ? taxi
+                : vechicleImage === "police"
+                ? police
+                : vechicleImage === "walk" && walk
+            }
             alt="Transport type"
           />
         </div>

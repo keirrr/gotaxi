@@ -1,12 +1,9 @@
 import axios from "axios";
 
 const isUserLoggedIn = async () => {
-  const isLoggedIn = await axios.get(
-    "https://gotaxi-server-production.up.railway.app/api/isAuth",
-    {
-      withCredentials: true,
-    }
-  );
+  const isLoggedIn = await axios.get("http://localhost:5000/api/isAuth", {
+    withCredentials: true,
+  });
 
   isLoggedIn.then((res) => {
     console.log(res.data.response.status);

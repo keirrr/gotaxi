@@ -7,6 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { IoClose } from "react-icons/io5";
 
+// Images
+import taxi from "../../imgs/svgs/taxi.svg";
+import user from "../../imgs/user.png";
+
 const MenuOrderWaiting = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,18 +33,10 @@ const MenuOrderWaiting = () => {
       <div className="mt-4">
         <div className="flex justify-center items-end relative">
           <div className="relative left-8 bottom-8 w-20">
-            <img
-              className="w-20 -scale-x-100"
-              src="/imgs/svgs/taxi.svg"
-              alt="User avatar"
-            />
+            <img className="w-20 -scale-x-100" src={taxi} alt="User avatar" />
           </div>
           <div className="flex flex-col items-center relative z-10">
-            <img
-              className="h-24"
-              src="/imgs/user-image.png"
-              alt="User avatar"
-            />
+            <img className="h-24" src={user} alt="User avatar" />
             <div className="relative bottom-3 bg-gray-200 rounded-full w-fit">
               <p className="px-2 py-1 font-bold text-center">Bartek</p>
             </div>

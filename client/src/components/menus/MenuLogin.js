@@ -62,7 +62,7 @@ const MenuLogin = () => {
     if (userData.email.trim() !== "") {
       if (validator.isEmail(userData.email.trim()) === true) {
         const userEmail = userData.email.trim();
-        const url = `https://gotaxi-server-production.up.railway.app/api/getOne/${userEmail}`;
+        const url = `http://localhost:5000/api/getOne/${userEmail}`;
         const user = await axios.get(url, { withCredentials: true });
         console.log(user);
         if (user.data.message === "Email not found") {
