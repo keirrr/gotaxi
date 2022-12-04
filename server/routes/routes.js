@@ -16,6 +16,7 @@ router.post("/users", async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
+    avatarUrl: "https://storage.googleapis.com/gotaxi-avatars/user-default.png",
   });
 
   const user = await Model.findOne({ email: req.body.email });

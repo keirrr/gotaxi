@@ -12,6 +12,8 @@ const upload = async (req, res) => {
   try {
     await processFile(req, res);
 
+    console.log(req.file);
+
     if (!req.file) {
       return res.status(400).send({ message: "Please upload a file!" });
     }
@@ -31,16 +33,6 @@ const upload = async (req, res) => {
       const publicUrl = format(
         `https://storage.googleapis.com/${bucket.name}/${blob.name}`
       );
-
-      try {
-        // Make the file public
-        await bucket.file(req.file.originalname).makePublic();
-      } catch {
-        return res.status(500).send({
-          message: `Uploaded the file successfully: ${req.file.originalname}, but public access is denied!`,
-          url: publicUrl,
-        });
-      }
 
       res.status(200).send({
         message: "Uploaded the file successfully: " + req.file.originalname,

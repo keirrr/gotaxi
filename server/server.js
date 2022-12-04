@@ -62,7 +62,7 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: "http://localhost",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
@@ -73,7 +73,6 @@ app.use("/api", routes);
 app.use("/api", avatar);
 
 app.post("/createUser", (req, res) => {
-  console.log("Data sended");
   console.log(req.body);
 });
 

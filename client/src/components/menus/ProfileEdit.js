@@ -154,14 +154,25 @@ const MenuProfile = () => {
     // checkRepasswordInput();
 
     if (isFilePicked) {
-      console.log("Upload");
       const uploadUrl = "http://localhost:5000/api/upload";
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      console.log("upload axios");
       const upload = await axios
-        .post(uploadUrl, selectedFile, {
+        .post(uploadUrl, formData, {
           withCredentials: true,
         })
-        .then((res) => {
-          console.log(res);
+        .then(async (res) => {
+          const avatarUrl = res.data.url;
+          const updateAvkUrl = "http://localhost:5000/api/avatar/update";
+          const update = await axios
+            .post(updateAvkUrl, avatarUrl, {
+              withCredentials: true,
+            })
+            .then((res) => {
+              console.log(res);
+              dispatch(setContent("Zaktualizowano profil"));
+            });
         });
     }
   };
@@ -196,7 +207,10 @@ const MenuProfile = () => {
 
         {/* User avatar */}
         <div className="relative flex justify-center mt-[20px]">
-          <form className="absolute h-[42px] w-[42px] p-1 translate-x-8 rounded-full bg-white hover:bg-gray-200">
+          <form
+            className="absolute h-[42px] w-[42px] p-1 translate-x-8 rounded-full bg-white hover:bg-gray-200"
+            encType="multipart/form-data"
+          >
             <label htmlFor="file">
               <MdOutlineFileUpload className="h-full w-full" />
             </label>
@@ -217,7 +231,7 @@ const MenuProfile = () => {
         </div>
       </div>
       {/* Logout */}
-      <section className="p-5 pt-0 mt-[20px]">
+      <form className="p-5 pt-0 mt-[20px]" onSubmit={saveHandler}>
         <TextInput
           placeholder={userData.name}
           inputType="text"
@@ -228,6 +242,7 @@ const MenuProfile = () => {
           pattern="[a-zA-Z]{2,30}"
           checkInput={checkNameInput}
           isValid={isNameValid}
+          notRequired
         />
         {!isNameValid && (
           <p className="text-right text-red-500 text-[14px]">
@@ -239,6 +254,7 @@ const MenuProfile = () => {
           inputType="text"
           disabled
           isValid="true"
+          notRequired
         />
         <TextInput
           placeholder="Zmień hasło"
@@ -277,8 +293,8 @@ const MenuProfile = () => {
           important={true}
           clickFunc={deleteAccHandler}
         />
-        <Button name="Zapisz ustawienia" clickFunc={saveHandler} />
-      </section>
+        <Button name="Zapisz ustawienia" />
+      </form>
     </section>
   );
 };
