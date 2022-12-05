@@ -30,6 +30,7 @@ const MenuProfile = () => {
     email: "",
     password: "",
     repassword: "",
+    avatarUrl: "",
   });
 
   const [selectedFile, setSelectedFile] = useState();
@@ -50,7 +51,11 @@ const MenuProfile = () => {
       });
 
     isAuthData.then((res) => {
-      setUserData({ name: res.data.name, email: res.data.email });
+      setUserData({
+        name: res.data.name,
+        email: res.data.email,
+        avatarUrl: res.data.avatarUrl,
+      });
     });
   });
 
@@ -166,11 +171,14 @@ const MenuProfile = () => {
           const avatarUrl = res.data.url;
           const updateAvkUrl = "http://localhost:5000/api/avatar/update";
           const update = await axios
-            .post(updateAvkUrl, avatarUrl, {
-              withCredentials: true,
-            })
+            .post(
+              updateAvkUrl,
+              { avatarUrl },
+              {
+                withCredentials: true,
+              }
+            )
             .then((res) => {
-              console.log(res);
               dispatch(setContent("Zaktualizowano profil"));
             });
         });
@@ -223,11 +231,16 @@ const MenuProfile = () => {
               onChange={uploadFileHandler}
             />
           </form>
-          <img
-            id="user-avatar"
-            className="h-[96px] w-[96px] rounded-full object-cover"
-            alt="User avatar"
-          />
+          {userData.avatarUrl ? (
+            <img
+              id="user-avatar"
+              className="h-[96px] w-[96px] rounded-full object-cover"
+              alt="User avatar"
+              src={userData.avatarUrl}
+            />
+          ) : (
+            <BiUserCircle className="h-[96px] w-[96px]" />
+          )}
         </div>
       </div>
       {/* Logout */}

@@ -24,6 +24,7 @@ const MenuProfile = () => {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
+    avatarUrl: "",
   });
 
   useEffect(() => {
@@ -41,7 +42,11 @@ const MenuProfile = () => {
       });
 
     isAuthData.then((res) => {
-      setUserData({ name: res.data.name, email: res.data.email });
+      setUserData({
+        name: res.data.name,
+        email: res.data.email,
+        avatarUrl: res.data.avatarUrl,
+      });
     });
   });
 
@@ -78,9 +83,20 @@ const MenuProfile = () => {
         </div>
 
         {/* User avatar */}
-        <div className="flex justify-center mt-[20px]">
-          <BiUserCircle className="h-[96px] w-[96px]" />
-        </div>
+        {userData.avatarUrl ? (
+          <div className="flex justify-center mt-[20px]">
+            <img
+              id="user-avatar"
+              className="h-[96px] w-[96px] rounded-full object-cover"
+              alt="User avatar"
+              src={userData.avatarUrl}
+            />
+          </div>
+        ) : (
+          <div className="flex justify-center mt-[20px]">
+            <BiUserCircle className="h-[96px] w-[96px]" />
+          </div>
+        )}
 
         {/* Username */}
         <p className="text-center font-bold text-lg">{userData.name}</p>

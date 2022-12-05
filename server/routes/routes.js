@@ -102,7 +102,11 @@ router.post("/login", async (req, res) => {
 
   const matchPassword = await bcrypt.compare(password, user.password);
   if (matchPassword) {
-    const userSession = { name: user.name, email: user.email };
+    const userSession = {
+      name: user.name,
+      email: user.email,
+      avatarUrl: user.avatarUrl,
+    };
     console.log(user);
     req.session.user = userSession;
 
@@ -112,8 +116,6 @@ router.post("/login", async (req, res) => {
   } else {
     return res.status(400).json({ message: "Wrong data" });
   }
-
-  console.log(user);
 });
 
 //Logout user
