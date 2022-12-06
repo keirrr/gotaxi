@@ -29,6 +29,12 @@ const MenuProfile = () => {
     name: "",
     email: "",
     password: "",
+    avatarUrl: "",
+  });
+
+  const [userDataToUpdate, setUserDataToUpdate] = useState({
+    name: "",
+    password: "",
     repassword: "",
     avatarUrl: "",
   });
@@ -60,7 +66,7 @@ const MenuProfile = () => {
   });
 
   const valueHandler = (elem, value) => {
-    setUserData((prevState) => ({
+    setUserDataToUpdate((prevState) => ({
       ...prevState,
       [elem]: value,
     }));
@@ -77,11 +83,8 @@ const MenuProfile = () => {
   const [repasswordInputError, setRepasswordInputError] = useState("");
 
   const checkNameInput = () => {
-    if (userData.name.trim() === "") {
-      setIsNameValid(false);
-      setNameInputError("*Imie jest wymagane");
-    } else {
-      if (/[a-zA-Z]$/.test(userData.name) === false) {
+    if (userDataToUpdate.name.trim() !== "") {
+      if (/[a-zA-Z]$/.test(userDataToUpdate.name) === false) {
         setIsNameValid(false);
         setNameInputError("*Imie może zawierać tylko litery");
         return;
@@ -92,12 +95,9 @@ const MenuProfile = () => {
   };
 
   const checkPasswordInput = () => {
-    if (userData.password.trim() === "") {
-      setIsPasswordValid(false);
-      setPasswordInputError("*Hasło jest wymagane");
-    } else {
+    if (userDataToUpdate.password.trim() !== "") {
       const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
-      if (regex.test(userData.password) === false) {
+      if (regex.test(userDataToUpdate.password) === false) {
         setIsPasswordValid(false);
         setPasswordInputError(
           "*Hasło powinno posiadać przynajmniej 8 znaków, jedną dużą literę oraz jedną małą literę"
@@ -105,8 +105,8 @@ const MenuProfile = () => {
         return;
       }
       if (
-        userData.repassword.trim() !== "" &&
-        userData.password !== userData.repassword
+        userDataToUpdate.repassword.trim() !== "" &&
+        userDataToUpdate.password !== userDataToUpdate.repassword
       ) {
         setPasswordInputError("");
         setIsPasswordValid(false);
@@ -121,15 +121,12 @@ const MenuProfile = () => {
   };
 
   const checkRepasswordInput = () => {
-    if (userData.repassword.trim() === "") {
-      setIsRepasswordValid(false);
-      setRepasswordInputError("*Powtórzenie hasła jest wymagane");
-    } else {
+    if (userDataToUpdate.repassword.trim() !== "") {
       const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
-      if (regex.test(userData.password) === false) {
+      if (regex.test(userDataToUpdate.password) === false) {
         return;
       }
-      if (userData.repassword !== userData.password) {
+      if (userDataToUpdate.repassword !== userDataToUpdate.password) {
         setIsPasswordValid(false);
         setIsRepasswordValid(false);
         setRepasswordInputError("*Hasła są od siebie różne");
@@ -154,9 +151,9 @@ const MenuProfile = () => {
     e.preventDefault();
 
     // Validation
-    // checkNameInput();
-    // checkPasswordInput();
-    // checkRepasswordInput();
+    checkNameInput();
+    checkPasswordInput();
+    checkRepasswordInput();
 
     if (isFilePicked) {
       const uploadUrl = "http://localhost:5000/api/upload";
@@ -169,11 +166,40 @@ const MenuProfile = () => {
         })
         .then(async (res) => {
           const avatarUrl = res.data.url;
-          const updateAvkUrl = "http://localhost:5000/api/avatar/update";
+          let updateData;
+          if (
+            userDataToUpdate.name === "" &&
+            userDataToUpdate.password === ""
+          ) {
+            updateData = { avatarUrl };
+          }
+          if (
+            userDataToUpdate.name !== "" &&
+            userDataToUpdate.password === ""
+          ) {
+            updateData = { name: userDataToUpdate.name, avatarUrl };
+          }
+          if (
+            userDataToUpdate.name === "" &&
+            userDataToUpdate.password !== ""
+          ) {
+            updateData = { password: userDataToUpdate.password, avatarUrl };
+          }
+          if (
+            userDataToUpdate.name !== "" &&
+            userDataToUpdate.password !== ""
+          ) {
+            updateData = {
+              name: userDataToUpdate.name,
+              password: userDataToUpdate.password,
+              avatarUrl,
+            };
+          }
+          const updateAvkUrl = "http://localhost:5000/api/profile/update";
           const update = await axios
             .post(
               updateAvkUrl,
-              { avatarUrl },
+              { updateData },
               {
                 withCredentials: true,
               }

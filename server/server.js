@@ -11,7 +11,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const cookieParser = require("cookie-parser");
 
 const routes = require("./routes/routes");
-const avatar = require("./routes/avatar");
+const updateProfile = require("./routes/updateProfile");
 
 // CORS
 const cors = require("cors");
@@ -70,11 +70,7 @@ app.use(
 
 // Use routes
 app.use("/api", routes);
-app.use("/api", avatar);
-
-app.post("/createUser", (req, res) => {
-  console.log(req.body);
-});
+app.use("/api", updateProfile);
 
 app.listen(5000, () => {
   console.log("Server running on port 5000!");
