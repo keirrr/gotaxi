@@ -5,6 +5,7 @@ import MenuRegister from "./components/menus/MenuRegister";
 import MenuForgetPassword from "./components/menus/MenuForgetPassword";
 import MenuProfile from "./components/menus/MenuProfile";
 import ProfileEdit from "./components/menus/ProfileEdit";
+import ProfileOrdersHistory from "./components/menus/ProfileOrdersHistory";
 import MenuOrderConfirm from "./components/menus/MenuOrderConfirm";
 import MenuOrderWaiting from "./components/menus/MenuOrderWaiting";
 
@@ -48,6 +49,7 @@ const App = () => {
         <Route path="recover" element={<MenuForgetPassword />} />
         <Route path="profile" element={<MenuProfile />} />
         <Route path="/profile/edit" element={<ProfileEdit />} />
+        <Route path="/profile/orders" element={<ProfileOrdersHistory />} />
         <Route path="/order/confirm" element={<MenuOrderConfirm />} />
         <Route path="/order/waiting" element={<MenuOrderWaiting />} />
         <Route path="*" element={<Navigate to="/" />} />
