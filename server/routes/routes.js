@@ -77,7 +77,8 @@ router.delete("/delete/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const data = await Model.findByIdAndDelete(id);
-    res.send(`Document with ${data.name} has been deleted..`);
+    res.clearCookie("session-id");
+    res.status(200).json({ message: "Account deleted successfully!" });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -103,11 +104,11 @@ router.post("/login", async (req, res) => {
   const matchPassword = await bcrypt.compare(password, user.password);
   if (matchPassword) {
     const userSession = {
+      id: user.id,
       name: user.name,
       email: user.email,
       avatarUrl: user.avatarUrl,
     };
-    console.log(user);
     req.session.user = userSession;
 
     return res

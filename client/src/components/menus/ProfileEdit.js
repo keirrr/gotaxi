@@ -42,6 +42,8 @@ const MenuProfile = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
 
+  const [isSureToDelete, setIsSureToDelete] = useState(false);
+
   useEffect(() => {
     const isAuthUrl = "http://localhost:5000/api/isAuth";
     const isAuthData = axios
@@ -58,6 +60,7 @@ const MenuProfile = () => {
 
     isAuthData.then((res) => {
       setUserData({
+        id: res.data.id,
         name: res.data.name,
         email: res.data.email,
         avatarUrl: res.data.avatarUrl,
@@ -145,6 +148,15 @@ const MenuProfile = () => {
 
   const deleteAccHandler = async (e) => {
     e.preventDefault();
+    const url = "http://localhost:5000/api/delete/" + userData.id;
+    const res = await axios
+      .delete(url, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+        dispatch(setContent("Konto zostało usunięte"));
+      });
   };
 
   const saveHandler = async (e) => {
@@ -327,11 +339,19 @@ const MenuProfile = () => {
             {repasswordInputError}
           </p>
         )}
-        <Button
-          name="Usuń konto"
-          important={true}
-          clickFunc={deleteAccHandler}
-        />
+        {isSureToDelete ? (
+          <Button
+            name="Jestem pewny(a), że chcę usunąć konto"
+            critical={true}
+            clickFunc={deleteAccHandler}
+          />
+        ) : (
+          <Button
+            name="Usuń konto"
+            important={true}
+            clickFunc={() => setIsSureToDelete(true)}
+          />
+        )}
         <Button name="Zapisz ustawienia" />
       </form>
     </section>
