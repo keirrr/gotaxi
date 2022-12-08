@@ -1,4 +1,6 @@
 // Router
+import { useState, useEffect } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -19,8 +21,13 @@ import {
   setDiscountValue,
 } from "../../store/orderInfoSlice";
 
+import addOrder from "../../features/addOrder";
+
 import SearchOrderPathInfo from "../map/results/search-orders/SearchOrderPathInfo";
 import Button from "../buttons/Button";
+
+import axios from "axios";
+import moment from "moment";
 
 import { IoChevronBack } from "react-icons/io5";
 
@@ -28,9 +35,59 @@ const MenuOrderConfirm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { price } = useSelector((state) => state.locationInfo);
+  // Auth
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    const isAuthUrl = "http://localhost:5000/api/isAuth";
+    const isAuthData = axios
+      .get(isAuthUrl, { withCredentials: true })
+      .catch((res) => {
+        if (res.status !== 200) {
+          navigate("/login");
+        }
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    isAuthData.then((res) => {
+      setUserData({
+        id: res.data.id,
+      });
+    });
+  });
+
+  const {
+    startLat,
+    startLng,
+    startLocationName,
+    destLat,
+    destLng,
+    destLocationName,
+    price,
+  } = useSelector((state) => state.locationInfo);
 
   const confirmHandler = () => {
+    // Create order object
+    const date = moment().format();
+
+    const orderData = {
+      startName: startLocationName,
+      startCoords: [startLat, startLng],
+      destName: destLocationName,
+      destCoords: [destLat, destLng],
+      price: price,
+      date: date,
+    };
+
+    const userId = userData.id;
+
+    // Add order to database
+    addOrder(userId, orderData);
+
+    // Reset store
     dispatch(setStartLocationName(null));
     dispatch(setStartLat(null));
     dispatch(setStartLng(null));

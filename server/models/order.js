@@ -9,11 +9,11 @@ const orderScheme = new mongoose.Schema({
     require: true,
     type: Array,
   },
-  destinationName: {
+  destName: {
     require: true,
     type: String,
   },
-  destinationCoords: {
+  destCoords: {
     require: true,
     type: Array,
   },
@@ -24,5 +24,7 @@ const orderScheme = new mongoose.Schema({
   date: {
     require: true,
     type: Date,
-  }
+  },
 });
+
+module.exports = mongoose.model("Order", orderScheme, "orders");

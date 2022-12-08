@@ -17,6 +17,10 @@ const dataSchema = new mongoose.Schema({
     require: true,
     type: String,
   },
+  orders: {
+    require: false,
+    type: Array,
+  },
 });
 
 module.exports = mongoose.model("Data", dataSchema, "users");

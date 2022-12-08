@@ -1,38 +1,18 @@
 import OrderItem from "./OrderItem";
 
-const OrdersList = () => {
+const OrdersList = (props) => {
+  const { orders } = props;
   return (
     <div className="max-h-[425px] overflow-y-scroll scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
-      <OrderItem
-        startLocationName="Warszawska 13, Katowice"
-        destLocationName="Mariacka 27, Katowice"
-        orderDate="07.12.2022, 14:34"
-        orderPrice="23.83zł"
-      />
-      <OrderItem
-        startLocationName="Warszawska 13, Katowice"
-        destLocationName="Mariacka 27, Katowice"
-        orderDate="07.12.2022, 14:34"
-        orderPrice="23.83zł"
-      />
-      <OrderItem
-        startLocationName="Warszawska 13, Katowice"
-        destLocationName="Mariacka 27, Katowice"
-        orderDate="07.12.2022, 14:34"
-        orderPrice="23.83zł"
-      />
-      <OrderItem
-        startLocationName="Warszawska 13, Katowice"
-        destLocationName="Mariacka 27, Katowice"
-        orderDate="07.12.2022, 14:34"
-        orderPrice="23.83zł"
-      />
-      <OrderItem
-        startLocationName="Warszawska 13, Katowice"
-        destLocationName="Mariacka 27, Katowice"
-        orderDate="07.12.2022, 14:34"
-        orderPrice="23.83zł"
-      />
+      {orders.map((info) => (
+        <OrderItem
+          key={info.id}
+          startLocationName={info.startName}
+          destLocationName={info.destName}
+          orderDate={info.date}
+          orderPrice={info.price}
+        />
+      ))}
     </div>
   );
 };

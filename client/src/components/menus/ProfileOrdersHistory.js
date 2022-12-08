@@ -11,10 +11,8 @@ const MenuProfile = () => {
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    avatarUrl: "",
+    id: null,
+    orders: null,
   });
 
   useEffect(() => {
@@ -34,9 +32,7 @@ const MenuProfile = () => {
     isAuthData.then((res) => {
       setUserData({
         id: res.data.id,
-        name: res.data.name,
-        email: res.data.email,
-        avatarUrl: res.data.avatarUrl,
+        orders: res.data.orders,
       });
     });
   });
@@ -67,7 +63,7 @@ const MenuProfile = () => {
       </div>
       {/* Logout */}
       <section className="p-5 pt-0 mt-[20px]">
-        <OrdersList />
+        {userData.orders !== null && <OrdersList orders={userData.orders} />}
       </section>
     </section>
   );
