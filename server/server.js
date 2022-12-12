@@ -12,7 +12,7 @@ const cookieParser = require("cookie-parser");
 
 const routes = require("./routes/routes");
 const updateProfile = require("./routes/updateProfile");
-const orders = require("./routes/orders")
+const orders = require("./routes/orders");
 
 // CORS
 const cors = require("cors");
@@ -63,7 +63,10 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    // Dev
+    // origin: "http://localhost:3000",
+    // Production
+    origin: "https://keirrr.github.io/gotaxi",
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
@@ -72,7 +75,7 @@ app.use(
 // Use routes
 app.use("/api", routes);
 app.use("/api", updateProfile);
-app.use("/api", orders)
+app.use("/api", orders);
 
 app.listen(5000, () => {
   console.log("Server running on port 5000!");
