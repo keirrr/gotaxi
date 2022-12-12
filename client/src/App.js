@@ -11,7 +11,7 @@ import MenuOrderWaiting from "./components/menus/MenuOrderWaiting";
 
 import NotificationElem from "./features/notificationElem";
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { useState, useEffect } from "react";
 
@@ -41,7 +41,7 @@ const App = () => {
   }, [content, showNotification, dispatch]);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<MenuLogout />} />
         <Route path="login" element={<MenuLogin />} />
@@ -55,7 +55,7 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       {showNotification && <NotificationElem content={content} />}
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
