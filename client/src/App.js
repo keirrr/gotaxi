@@ -41,7 +41,7 @@ const App = () => {
   }, [content, showNotification, dispatch]);
 
   return (
-    <HashRouter>
+    <HashRouter basename="/">
       <Routes>
         <Route path="/" element={<MenuLogout />} />
         <Route path="login" element={<MenuLogin />} />

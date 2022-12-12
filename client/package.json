@@ -1,7 +1,7 @@
 {
   "name": "gotaxi",
   "version": "0.7.1",
-  "homepage": "/gotaxi/#",
+  "homepage": "https://keirrr.github.io/gotaxi",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
