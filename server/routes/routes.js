@@ -139,4 +139,9 @@ router.get("/isAuth", async (req, res) => {
   }
 });
 
+router.get("/test", async (req, res) => {
+  console.log("Test API");
+  return res.status(200).json({ msg: "Test API" });
+});
+
 module.exports = router;
