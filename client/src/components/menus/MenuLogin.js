@@ -26,7 +26,8 @@ const MenuLogin = () => {
 
   // Redirect if user is authenticated
   const navigate = useNavigate();
-  const isAuthUrl = "http://localhost:5000/api/isAuth";
+  const isAuthUrl =
+    "https://gotaxi-server-production.up.railway.app:5000/api/isAuth";
   useEffect(() => {
     const res = axios.get(isAuthUrl, {
       withCredentials: true,

@@ -13,6 +13,8 @@ import {
 // Axios
 import axios from "axios";
 
+import black_marker from "../../assets/imgs/markers/black_marker.png";
+
 // CSS
 import "./style.css";
 
@@ -34,7 +36,7 @@ const CreateRoutingMachineLayer = ({
       const startMarker = L.marker(waypoint.latLng, {
         draggable: false,
         icon: L.icon({
-          iconUrl: "./imgs/markers/black-marker.png",
+          iconUrl: "https://i.imgur.com/EO3jEyv.png",
           iconSize: [32, 32],
         }),
       });

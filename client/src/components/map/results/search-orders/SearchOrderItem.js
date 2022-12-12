@@ -12,9 +12,9 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 // Images
-import police from "../../../../imgs/svgs/police.svg";
-import taxi from "../../../../imgs/svgs/taxi.svg";
-import walk from "../../../../imgs/svgs/walk.svg";
+import police from "../../../../assets/imgs/svgs/police.svg";
+import taxi from "../../../../assets/imgs/svgs/taxi.svg";
+import walk from "../../../../assets/imgs/svgs/walk.svg";
 
 import { IoMdPricetag } from "react-icons/io";
 

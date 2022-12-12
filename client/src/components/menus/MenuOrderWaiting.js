@@ -8,8 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { IoClose } from "react-icons/io5";
 
 // Images
-import taxi from "../../imgs/svgs/taxi.svg";
-import user from "../../imgs/user.png";
+import taxi from "../../assets/imgs/svgs/taxi.svg";
+import user from "../../assets/imgs/user.png";
 
 const MenuOrderWaiting = () => {
   const navigate = useNavigate();

@@ -35,7 +35,7 @@ import RecentSearchResultsList from "../map/results/RecentSearchResultsList";
 import { BiUser } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 
-import logo from "../../imgs/svgs/logo.svg";
+import logo from "../../assets/imgs/svgs/logo.svg";
 
 const MenuLogout = () => {
   const [cookies, setCookie] = useCookies([]);
