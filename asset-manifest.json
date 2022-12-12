@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/gotaxi/static/css/main.df39b3ab.css",
-    "main.js": "/gotaxi/static/js/main.eb348a44.js",
+    "main.js": "/gotaxi/static/js/main.06f10ea7.js",
     "static/media/taxi.svg": "/gotaxi/static/media/taxi.0f014f903a2f0554a3fd2b831b72dfc2.svg",
     "static/media/police.svg": "/gotaxi/static/media/police.e7372c3b61b1ddf3bd3a9f38fb98f72d.svg",
     "static/media/walk.svg": "/gotaxi/static/media/walk.86bb008465cf06c574b0f16d2975d513.svg",
     "static/media/logo.svg": "/gotaxi/static/media/logo.273b56d4b027f2e52b9f40ef2d72fd6b.svg",
     "index.html": "/gotaxi/index.html",
     "main.df39b3ab.css.map": "/gotaxi/static/css/main.df39b3ab.css.map",
-    "main.eb348a44.js.map": "/gotaxi/static/js/main.eb348a44.js.map"
+    "main.06f10ea7.js.map": "/gotaxi/static/js/main.06f10ea7.js.map"
   },
   "entrypoints": [
     "static/css/main.df39b3ab.css",
-    "static/js/main.eb348a44.js"
+    "static/js/main.06f10ea7.js"
   ]
 }
