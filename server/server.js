@@ -22,7 +22,7 @@ app.use(
     // Dev
     // origin: "http://localhost:3000",
     // Production
-    origin: "http://localhost:3000",
+    origin: "https://keirrr.github.io",
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
