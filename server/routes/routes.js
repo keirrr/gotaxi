@@ -1,7 +1,8 @@
 const express = require("express");
 const Model = require("../models/model");
-
 const router = express.Router();
+
+const axios = require("axios");
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -140,8 +141,12 @@ router.get("/isAuth", async (req, res) => {
 });
 
 router.get("/test", async (req, res) => {
-  console.log("Test API");
-  return res.status(200).json({ msg: "Test API" });
+  axios
+    .get("https://gotaxi-server-production.up.railway.app/api/test")
+    .then((res) => {
+      console.log("Test API");
+      return res.status(200).json({ msg: "Test API" });
+    });
 });
 
 module.exports = router;
