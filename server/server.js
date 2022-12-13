@@ -66,7 +66,7 @@ app.use(
     // Dev
     // origin: "http://localhost:3000",
     // Production
-    origin: "https://keirrr.github.io/gotaxi",
+    origin: "https://keirrr.github.io",
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
