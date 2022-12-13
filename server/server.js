@@ -17,6 +17,17 @@ const orders = require("./routes/orders");
 // CORS
 const cors = require("cors");
 
+app.use(
+  cors({
+    // Dev
+    // origin: "http://localhost:3000",
+    // Production
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "DELETE"],
+    credentials: true,
+  })
+);
+
 const mongoDBstore = new MongoDBStore({
   uri: process.env.DATABASE_URL,
   collection: "sessions",
@@ -60,17 +71,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse application/json
 app.use(bodyParser.json());
-
-app.use(
-  cors({
-    // Dev
-    // origin: "http://localhost:3000",
-    // Production
-    origin: "https://keirrr.github.io",
-    methods: ["GET", "POST", "DELETE"],
-    credentials: true,
-  })
-);
 
 // Use routes
 app.use("/api", routes);
