@@ -20,7 +20,7 @@ const corsSettings = {
   // Dev
   // origin: "http://localhost:3000",
   // Production
-  origin: "*",
+  origin: "https://keirrr.github.io",
   methods: ["GET", "POST", "DELETE"],
   credentials: true,
 };
