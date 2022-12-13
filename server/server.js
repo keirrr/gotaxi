@@ -24,6 +24,7 @@ app.use(
     // Production
     origin: "https://keirrr.github.io",
     methods: ["GET", "POST", "DELETE"],
+    preflightContinue: true,
     credentials: true,
   })
 );
