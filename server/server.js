@@ -18,9 +18,9 @@ const orders = require("./routes/orders");
 const cors = require("cors");
 const corsSettings = {
   // Dev
-  // origin: "http://localhost:3000",
+  origin: "http://localhost:3000",
   // Production
-  origin: "https://keirrr.github.io",
+  // origin: "https://keirrr.github.io",
   methods: ["GET", "POST", "DELETE"],
   credentials: true,
 };
@@ -77,6 +77,6 @@ app.use("/api", routes);
 app.use("/api", updateProfile);
 app.use("/api", orders);
 
-app.listen(() => {
+app.listen(5000, () => {
   console.log("Server running!");
 });

@@ -141,12 +141,8 @@ router.get("/isAuth", async (req, res) => {
 });
 
 router.get("/test", async (req, res) => {
-  axios
-    .get("https://gotaxi-server-production.up.railway.app/api/test")
-    .then((res) => {
-      console.log("Test API");
-      return res.status(200).json({ msg: "Test API" });
-    });
+  console.log("Test API");
+  return res.status(200).json({ msg: "Test API" });
 });
 
 module.exports = router;
