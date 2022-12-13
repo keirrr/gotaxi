@@ -16,19 +16,17 @@ const orders = require("./routes/orders");
 
 // CORS
 const cors = require("cors");
-
-app.use(
-  cors({
-    // Dev
-    // origin: "http://localhost:3000",
-    // Production
-    origin: "https://keirrr.github.io",
-    methods: ["GET", "POST", "DELETE"],
-    credentials: true,
-  })
-);
+const corsSettings = {
+  // Dev
+  // origin: "http://localhost:3000",
+  // Production
+  origin: "https://keirrr.github.io",
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true,
+};
+app.use(cors(corsSettings));
 // Enable pre-flight
-app.options("*", cors());
+app.options("*", cors(corsSettings));
 
 const mongoDBstore = new MongoDBStore({
   uri: process.env.DATABASE_URL,
