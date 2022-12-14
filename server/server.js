@@ -17,16 +17,17 @@ const orders = require("./routes/orders");
 // CORS
 const cors = require("cors");
 const corsSettings = {
-  // Dev
-  // origin: "http://localhost:3000",
-  // Production
   origin: "*",
   methods: ["GET", "POST", "DELETE"],
   credentials: false,
 };
-app.use(cors(corsSettings));
-// Enable pre-flight
-app.options("*", cors(corsSettings));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "DELETE"],
+    credentials: false,
+  })
+);
 
 const mongoDBstore = new MongoDBStore({
   uri: process.env.DATABASE_URL,
