@@ -20,9 +20,9 @@ const corsSettings = {
   // Dev
   // origin: "http://localhost:3000",
   // Production
-  origin: "https://keirrr.github.io",
+  origin: "*",
   methods: ["GET", "POST", "DELETE"],
-  credentials: true,
+  credentials: false,
 };
 app.use(cors(corsSettings));
 // Enable pre-flight
